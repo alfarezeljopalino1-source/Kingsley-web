@@ -77,6 +77,22 @@ export const Hero: React.FC = () => {
             instant path drag-and-drop without tmux configuration headaches.
           </p>
 
+          {/* Key capability pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 pb-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-zinc-900/90 border border-zinc-800 text-zinc-300">
+              <span className="text-cyan-400 font-bold">⚡</span> 0.18ms ConPTY IPC
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-zinc-900/90 border border-zinc-800 text-zinc-300">
+              <span className="text-blue-400 font-bold">🪟</span> Fluid Resizable Split
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-zinc-900/90 border border-zinc-800 text-zinc-300">
+              <span className="text-emerald-400 font-bold">🎯</span> Zero-Copy Path Drop
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-zinc-900/90 border border-zinc-800 text-zinc-300">
+              <span className="text-purple-400 font-bold">🤖</span> AI CLI Flow Ready
+            </span>
+          </div>
+
           {/* Primary CTA Buttons */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a

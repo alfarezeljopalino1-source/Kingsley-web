@@ -17,12 +17,14 @@ import {
   Play,
   Pause,
   RotateCcw,
-  MousePointer
+  MousePointer,
+  Zap
 } from 'lucide-react';
 
 export const TerminalMockup: React.FC = () => {
   // Motion loop state
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [speedMultiplier, setSpeedMultiplier] = useState<1 | 1.5>(1);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'kingsley' | 'sesitanya'>('kingsley');
   const [activePane, setActivePane] = useState<'left' | 'right'>('left');
@@ -50,81 +52,89 @@ export const TerminalMockup: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const idleResumeTimerRef = useRef<number | undefined>(undefined);
 
-  // Auto-Motion Sequence Engine (8-second continuous loop)
+  // FAST CONTINUOUS MOTION ENGINE (4.5s loop, non-stop)
   useEffect(() => {
     if (!isPlaying || userInteracted) return;
 
-    let startTime = Date.now();
-    const duration = 9000; // 9s loop
+    const baseDuration = 4500;
+    const duration = baseDuration / speedMultiplier;
+    const startTime = Date.now();
 
     const frameInterval = setInterval(() => {
       const elapsed = (Date.now() - startTime) % duration;
+      const normalizedTime = (elapsed / duration) * baseDuration;
 
-      // Phase 1: 0s - 2.5s (Left pane active, typing command)
-      if (elapsed < 2500) {
+      // PHASE 1: 0ms - 1300ms (Rapid Keystroke Typing in Left Pane)
+      if (normalizedTime < 1300) {
         setActivePane('left');
-        setVirtualCursor({ x: 380, y: 320, visible: true, clicking: false });
-        const textToType = 'git status --short';
-        const progress = Math.min(Math.floor((elapsed / 1800) * textToType.length), textToType.length);
-        setTypedText(textToType.slice(0, progress));
-        setShowStatusOutput(elapsed > 1900);
+        setVirtualCursor({ x: 380, y: 310, visible: true, clicking: false });
+
+        const cmd = 'git status --short';
+        const typeProgress = Math.min(Math.floor((normalizedTime / 800) * cmd.length), cmd.length);
+        setTypedText(cmd.slice(0, typeProgress));
+        setShowStatusOutput(normalizedTime > 850);
       }
-      // Phase 2: 2.5s - 6s (Mouse cursor moves to divider & smoothly resizes split panes!)
-      else if (elapsed >= 2500 && elapsed < 6000) {
-        const dragProgress = (elapsed - 2500) / 3500; // 0 to 1
-        // Smooth sine wave: 50% -> 38% -> 63% -> 50%
-        const offset = Math.sin(dragProgress * Math.PI * 2) * 14;
+      // PHASE 2: 1300ms - 3000ms (Rapid Fluid Split Divider Drag)
+      else if (normalizedTime >= 1300 && normalizedTime < 3000) {
+        const dragProgress = (normalizedTime - 1300) / 1700; // 0 to 1
+        // Dynamic sine wave: 50% -> 34% -> 66% -> 50%
+        const offset = Math.sin(dragProgress * Math.PI * 2) * 16;
         const currentSplit = 50 + offset;
         setSplitPos(currentSplit);
 
-        // Calculate cursor position tracking the divider
+        // Position virtual cursor grabbing divider
         if (containerRef.current) {
           const rect = containerRef.current.getBoundingClientRect();
           const sidebarWidth = isSidebarOpen ? 180 : 0;
           const dividerX = sidebarWidth + ((rect.width - sidebarWidth) * currentSplit) / 100;
-          setVirtualCursor({ x: dividerX, y: 240, visible: true, clicking: true });
+          setVirtualCursor({ x: dividerX, y: 220, visible: true, clicking: true });
         }
       }
-      // Phase 3: 6s - 8.5s (Right pane AI agent streaming responses)
-      else if (elapsed >= 6000 && elapsed < 8500) {
+      // PHASE 3: 3000ms - 4200ms (Fast AI Agent Output Cascade in Right Pane)
+      else if (normalizedTime >= 3000 && normalizedTime < 4200) {
         setActivePane('right');
-        setVirtualCursor({ x: 740, y: 260, visible: true, clicking: false });
-        const agentPhase = elapsed - 6000;
-        if (agentPhase > 300 && agentPhase < 1000) {
-          setAgentLogs((prev) =>
-            prev.length < 4
-              ? [...prev, '$ omp analyze-diff --conpty']
-              : prev
-          );
-        } else if (agentPhase >= 1000) {
-          setAgentLogs((prev) =>
-            prev.length < 5
-              ? [
-                  ...prev,
-                  '✓ [high] Gemini 3.5 Flash Lite: 0.18ms latency buffer verified.'
-                ]
-              : prev
-          );
+        setVirtualCursor({ x: 740, y: 240, visible: true, clicking: false });
+
+        const agentPhase = normalizedTime - 3000;
+        if (agentPhase < 400) {
+          setAgentLogs([
+            'Gemini-3.8-flash agent pipe active.',
+            '$ omp --help',
+            'Autonomous CLI companion connected to Kingsley ConPTY.'
+          ]);
+        } else if (agentPhase >= 400 && agentPhase < 800) {
+          setAgentLogs([
+            'Gemini-3.8-flash agent pipe active.',
+            '$ omp analyze-diff --conpty',
+            'Streaming live AST analysis (0.18ms latency)...'
+          ]);
+        } else {
+          setAgentLogs([
+            'Gemini-3.8-flash agent pipe active.',
+            '$ omp analyze-diff --conpty',
+            'Streaming live AST analysis (0.18ms latency)...',
+            '✓ [high] Gemini 3.5 Flash Lite: 0.18ms verified. Ready.'
+          ]);
         }
       }
-      // Phase 4: Loop reset (8.5s - 9s)
+      // PHASE 4: 4200ms - 4500ms (Smooth seamless loop reset)
       else {
         setSplitPos(50);
         setVirtualCursor({ x: 500, y: 220, visible: false, clicking: false });
       }
-    }, 40);
+    }, 25);
 
     return () => clearInterval(frameInterval);
-  }, [isPlaying, userInteracted, isSidebarOpen]);
+  }, [isPlaying, userInteracted, isSidebarOpen, speedMultiplier]);
 
   // Handle User Manual Interaction (pauses auto-motion, allows manual drag)
   const handleUserTouch = () => {
     setUserInteracted(true);
     clearTimeout(idleResumeTimerRef.current);
-    // Resume auto-motion after 6 seconds of inactivity
-    idleResumeTimerRef.current = setTimeout(() => {
+    // Resume auto-motion after 5 seconds of inactivity
+    idleResumeTimerRef.current = window.setTimeout(() => {
       setUserInteracted(false);
-    }, 6000);
+    }, 5000);
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -168,23 +178,23 @@ export const TerminalMockup: React.FC = () => {
   return (
     <div className="relative w-full max-w-5xl mx-auto group">
       {/* Subtle Ambient Radial Glow */}
-      <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-600/20 via-cyan-500/10 to-indigo-600/20 blur-xl opacity-75 group-hover:opacity-100 transition duration-500" />
+      <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-cyan-500/20 via-blue-600/15 to-indigo-600/20 blur-xl opacity-80 group-hover:opacity-100 transition duration-500" />
 
-      {/* Control & Status Bar on top of the mockup */}
+      {/* Control & Live Speed Status Bar */}
       <div className="mb-3 flex items-center justify-between px-2">
         <div className="flex items-center gap-2">
-          {/* Live Motion Status Pill */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono">
+          {/* Live Continuous Loop Pill */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono shadow-sm">
             <span
               className={`w-2 h-2 rounded-full ${
                 isPlaying && !userInteracted
-                  ? 'bg-emerald-400 animate-pulse'
+                  ? 'bg-cyan-400 animate-ping'
                   : 'bg-amber-400'
               }`}
             />
-            <span className="text-zinc-300 font-medium">
+            <span className="text-zinc-200 font-medium">
               {isPlaying && !userInteracted
-                ? 'Kingsley Motion Engine Active'
+                ? '⚡ Continuous Motion Engine (Non-Stop Loop)'
                 : 'Interactive Mode (User Override)'}
             </span>
           </div>
@@ -202,6 +212,20 @@ export const TerminalMockup: React.FC = () => {
             ) : (
               <Play className="w-3.5 h-3.5" />
             )}
+          </button>
+
+          {/* Speed Toggle (1x vs 1.5x Fast) */}
+          <button
+            onClick={() => setSpeedMultiplier(speedMultiplier === 1 ? 1.5 : 1)}
+            title="Toggle Motion Speed"
+            className={`px-2 py-1 rounded-lg border text-[11px] font-mono flex items-center gap-1 transition-colors ${
+              speedMultiplier === 1.5
+                ? 'bg-cyan-950 text-cyan-300 border-cyan-800'
+                : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-zinc-200'
+            }`}
+          >
+            <Zap className="w-3 h-3 text-cyan-400" />
+            <span>{speedMultiplier === 1.5 ? '1.5x Ultra-Fast' : '1x Fast'}</span>
           </button>
 
           <button
@@ -222,9 +246,9 @@ export const TerminalMockup: React.FC = () => {
         </div>
 
         <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-zinc-400">
-          <span className="text-blue-400">Drag or watch:</span>
-          <span className="bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-zinc-300">
-            Split: {Math.round(splitPos)}% / {100 - Math.round(splitPos)}%
+          <span className="text-cyan-400">Live Split:</span>
+          <span className="bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-zinc-200 font-semibold">
+            {Math.round(splitPos)}% : {100 - Math.round(splitPos)}%
           </span>
         </div>
       </div>
@@ -248,7 +272,7 @@ export const TerminalMockup: React.FC = () => {
               title="Toggle Sidebar"
               className="p-1 hover:text-zinc-200 hover:bg-zinc-800/60 rounded transition-colors"
             >
-              <PanelLeft className="w-3.5 h-3.5 text-blue-400" />
+              <PanelLeft className="w-3.5 h-3.5 text-cyan-400" />
             </button>
 
             {/* Tabs */}
@@ -427,7 +451,7 @@ export const TerminalMockup: React.FC = () => {
                 </p>
               </div>
 
-              {/* Terminal Area (Bottom Half with Live Typing) */}
+              {/* Terminal Area (Bottom Half with Fast Keystrokes) */}
               <div className="p-3 flex-1 overflow-y-auto space-y-1 text-[11px] font-mono text-zinc-300 bg-[#10131a]">
                 <p className="text-zinc-400">
                   <span className="text-emerald-400">kingsley</span>
@@ -441,18 +465,18 @@ export const TerminalMockup: React.FC = () => {
                 </p>
                 {showStatusOutput && (
                   <div className="space-y-0.5 text-[10px] pt-1">
-                    <p className="text-emerald-400"> M src/multiplexer/conpty.rs</p>
-                    <p className="text-emerald-400"> M src/ui/ResizeHandle.tsx</p>
-                    <p className="text-zinc-500">✓ ConPTY stream active (0.19ms latency)</p>
+                    <p className="text-emerald-400 font-semibold"> M src/multiplexer/conpty.rs</p>
+                    <p className="text-emerald-400 font-semibold"> M src/ui/ResizeHandle.tsx</p>
+                    <p className="text-zinc-400 font-mono">✓ ConPTY stream active (0.18ms latency)</p>
                   </div>
                 )}
               </div>
 
               {/* Pane Footer Action Bar */}
               <div className="h-7 bg-[#141924] border-t border-zinc-800/60 px-3 flex items-center justify-between text-[10px] text-zinc-400">
-                <span className="text-emerald-400 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  ConPTY Pipe Ready
+                <span className="text-emerald-400 flex items-center gap-1 font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  ConPTY Pipe Ready (0.18ms)
                 </span>
                 <span className="text-zinc-500">DeepSeek V4.1 • OpenCode</span>
               </div>
@@ -461,14 +485,14 @@ export const TerminalMockup: React.FC = () => {
             {/* Draggable Divider (ResizeHandle) with Live Animated Movement */}
             <div
               onMouseDown={handleMouseDown}
-              className={`w-1.5 h-full cursor-col-resize flex items-center justify-center transition-colors z-20 ${
+              className={`w-1.5 h-full cursor-col-resize flex items-center justify-center transition-all z-20 ${
                 isUserDragging || (isPlaying && !userInteracted)
-                  ? 'bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
+                  ? 'bg-cyan-400 shadow-[0_0_16px_rgba(6,182,212,0.9)]'
                   : 'bg-zinc-800 hover:bg-cyan-500/80'
               }`}
               title="Drag divider horizontally to resize"
             >
-              <div className="w-0.5 h-4 bg-zinc-400 rounded pointer-events-none" />
+              <div className="w-0.5 h-4 bg-zinc-900 rounded pointer-events-none" />
             </div>
 
             {/* RIGHT PANE: Sesi tanya shell with omp agent */}
@@ -497,7 +521,7 @@ export const TerminalMockup: React.FC = () => {
                 </div>
               </div>
 
-              {/* Live Streaming AI Logs */}
+              {/* Fast Streaming AI Logs */}
               <div className="p-3 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-zinc-300 bg-[#0c0e12]">
                 {agentLogs.map((log, i) => (
                   <p
@@ -517,7 +541,7 @@ export const TerminalMockup: React.FC = () => {
 
               {/* Pane Footer Action Bar */}
               <div className="h-7 bg-[#141924] border-t border-zinc-800/60 px-3 flex items-center justify-between text-[10px] text-zinc-400">
-                <span className="text-zinc-400 font-mono text-[10px]">
+                <span className="text-cyan-300 font-mono text-[10px] font-medium">
                   Split: {Math.round(splitPos)}% : {100 - Math.round(splitPos)}%
                 </span>
                 <span className="text-zinc-500 font-mono text-[9px]">[high] Gemini 3.5</span>
@@ -556,7 +580,7 @@ export const TerminalMockup: React.FC = () => {
         <div className="h-6 bg-[#090b0e] border-t border-zinc-800 px-3 flex items-center justify-between text-[10px] text-zinc-500 font-mono">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1 text-emerald-400">
-              <Check className="w-3 h-3" /> ConPTY IPC Connected
+              <Check className="w-3 h-3" /> ConPTY IPC Connected (0.18ms)
             </span>
             <span className="text-zinc-700">|</span>
             <span className="text-zinc-400">1 shell • 111.2K (56%) ctrl+p commands</span>
