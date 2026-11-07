@@ -55,13 +55,6 @@ export const Hero: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto space-y-6">
-          {/* Release Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-zinc-900 border border-zinc-700/80 text-zinc-300 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>v1.0.0 STABLE RELEASE</span>
-            <span className="text-zinc-600">•</span>
-            <span className="text-blue-400">WINDOWS & MACOS</span>
-          </div>
 
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-100 leading-[1.1]">

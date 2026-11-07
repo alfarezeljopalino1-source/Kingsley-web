@@ -72,9 +72,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
             />
             <div className="flex items-center gap-2">
               <span className="font-bold text-lg text-zinc-100 tracking-tight">Kingsley</span>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-blue-950/70 text-blue-300 border border-blue-800/60">
-                v1.0.0
-              </span>
             </div>
           </a>
 
