@@ -33,8 +33,7 @@ export const TerminalMockup: React.FC = () => {
   const [typedCommand, setTypedCommand] = useState<string>('npm run build');
   const [showBuildOutput, setShowBuildOutput] = useState<boolean>(true);
   const [agentLogs, setAgentLogs] = useState<string[]>([
-    '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s tok/s: 27.4/s',
-    'Esc running python',
+    'ConPTY pseudoterminal session attached (pid: 14208)',
     '> Analyzing workspace components: 100% verified',
     '> ConPTY IPC pipeline active: 0.18ms latency',
     '> Auto-syncing live terminal states: READY'
@@ -81,18 +80,18 @@ export const TerminalMockup: React.FC = () => {
         const agentPhase = elapsed - 2800;
         if (agentPhase < 400) {
           setAgentLogs([
-            '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s',
+            'ConPTY pseudoterminal session attached (pid: 14208)',
             '> Analyzing workspace components: 100% verified'
           ]);
         } else if (agentPhase >= 400 && agentPhase < 800) {
           setAgentLogs([
-            '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s',
+            'ConPTY pseudoterminal session attached (pid: 14208)',
             '> Analyzing workspace components: 100% verified',
             '> ConPTY IPC pipeline active: 0.18ms latency'
           ]);
         } else {
           setAgentLogs([
-            '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s',
+            'ConPTY pseudoterminal session attached (pid: 14208)',
             '> Analyzing workspace components: 100% verified',
             '> ConPTY IPC pipeline active: 0.18ms latency',
             '✓ [high] Gemini 3.8 Flash: All tasks completed successfully.'
@@ -215,7 +214,7 @@ export const TerminalMockup: React.FC = () => {
                 }`}
               >
                 <Folder className="w-3 h-3 text-amber-400" />
-                <span>Sesi tanya 1</span>
+                <span>backend-core 1</span>
                 <X className="w-3 h-3 text-slate-600 hover:text-slate-400 ml-1" />
               </div>
 
@@ -231,10 +230,9 @@ export const TerminalMockup: React.FC = () => {
                 }`}
               >
                 <Folder className="w-3 h-3 text-purple-400" />
-                <span>Kingsley Web 1</span>
+                <span>ai-copilot 1</span>
                 <X className="w-3 h-3 text-purple-400/60 hover:text-purple-300 ml-1" />
               </div>
-
               <span className="p-1 text-slate-500 hover:text-slate-300 cursor-pointer">
                 <Plus className="w-3 h-3" />
               </span>
@@ -292,7 +290,7 @@ export const TerminalMockup: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-300 py-0.5">
                       <Folder className="w-3.5 h-3.5 text-amber-400" />
-                      <span className="font-medium">Sesi tanya</span>
+                      <span className="font-medium">backend-core</span>
                     </div>
                     <div className="pl-4 py-0.5 flex items-center gap-1.5 text-slate-400 text-[10px]">
                       <TerminalIcon className="w-3 h-3 text-slate-500" />
@@ -303,7 +301,7 @@ export const TerminalMockup: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-300 py-0.5">
                       <Folder className="w-3.5 h-3.5 text-blue-400" />
-                      <span className="font-medium">Maybee</span>
+                      <span className="font-medium">web-client</span>
                     </div>
                     <div className="pl-4 py-0.5 flex items-center gap-1.5 text-slate-400 text-[10px]">
                       <TerminalIcon className="w-3 h-3 text-slate-500" />
@@ -314,7 +312,7 @@ export const TerminalMockup: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-300 py-0.5">
                       <Folder className="w-3.5 h-3.5 text-[#00d2d3]" />
-                      <span className="font-medium">Kingsley</span>
+                      <span className="font-medium">microservice</span>
                     </div>
                     <div className="pl-4 py-0.5 flex items-center gap-1.5 text-slate-400 text-[10px]">
                       <TerminalIcon className="w-3 h-3 text-slate-500" />
@@ -322,15 +320,15 @@ export const TerminalMockup: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Active Project: Kingsley Web */}
+                  {/* Active Project: ai-copilot */}
                   <div>
                     <div className="flex items-center gap-1.5 text-purple-300 py-0.5">
                       <Folder className="w-3.5 h-3.5 text-purple-400" />
-                      <span className="font-semibold">Kingsley Web</span>
+                      <span className="font-semibold">ai-copilot</span>
                     </div>
                     <div className="pl-4 py-0.5 flex items-center gap-1.5 text-purple-200 text-[10px] bg-purple-950/60 rounded px-1.5 border border-purple-800/60 font-semibold shadow-sm">
                       <TerminalIcon className="w-3 h-3 text-purple-400" />
-                      <span>shell (active)</span>
+                      <span>agent (active)</span>
                     </div>
                   </div>
                 </div>
@@ -384,7 +382,7 @@ export const TerminalMockup: React.FC = () => {
                     }`}
                   />
                   <TerminalIcon className="w-3.5 h-3.5 text-[#00a8ff] shrink-0" />
-                  <span className="font-bold text-slate-200 truncate">Kingsley Web</span>
+                  <span className="font-bold text-slate-200 truncate">backend-core</span>
                   <span className="text-slate-600">/</span>
                   <span className="text-purple-300 font-medium truncate">shell</span>
                 </div>
@@ -401,7 +399,7 @@ export const TerminalMockup: React.FC = () => {
               <div className="p-3.5 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-slate-300 bg-[#10131a]">
                 <p className="text-slate-400">
                   <span className="text-purple-400 font-semibold">PS</span>{' '}
-                  <span className="text-slate-500">D:\backup data C\OneDrive\Kingsley Web&gt;</span>{' '}
+                  <span className="text-slate-500">C:\workspace\backend-core&gt;</span>{' '}
                   <span className="text-slate-100 font-medium">{typedCommand}</span>
                   <span className="w-2 h-3.5 inline-block bg-[#00d2d3] ml-1 animate-pulse align-middle" />
                 </p>
@@ -497,9 +495,9 @@ export const TerminalMockup: React.FC = () => {
                     }`}
                   />
                   <TerminalIcon className="w-3.5 h-3.5 text-[#00a8ff] shrink-0" />
-                  <span className="font-bold text-slate-200 truncate">Sesi tanya</span>
+                  <span className="font-bold text-slate-200 truncate">ai-copilot</span>
                   <span className="text-slate-600">/</span>
-                  <span className="text-emerald-300 font-medium truncate">omp agent</span>
+                  <span className="text-emerald-300 font-medium truncate">agent stream</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-slate-500 shrink-0">
                   <Camera className="w-3 h-3 hover:text-white cursor-pointer" />
@@ -513,12 +511,12 @@ export const TerminalMockup: React.FC = () => {
               {/* Exact live agent logs from Bro Jopal's Kingsley session */}
               <div className="p-3.5 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-slate-300 bg-[#0c0e12]">
                 <div className="p-1.5 rounded bg-blue-950/40 border border-blue-800/40 text-[10px] text-blue-300 flex items-center justify-between">
-                  <span className="truncate">● WEB: Build Kingsley web per PRD</span>
-                  <span className="text-slate-400 text-[9px] shrink-0 font-mono">ctx: 28.3%/1M [A]</span>
+                  <span className="truncate">● AI AGENT FLOW • ConPTY Stream Connected</span>
+                  <span className="text-slate-400 text-[9px] shrink-0 font-mono">0.18ms latency</span>
                 </div>
 
                 <div className="space-y-1 pt-1">
-                  <p className="text-slate-500">[high] Gemini 3.8 Flash • [T] D:\KiroCLI\temp</p>
+                  <p className="text-slate-500">[high] Gemini 3.8 Flash • [T] ~/workspace/ai-copilot</p>
                   {agentLogs.map((log, i) => (
                     <p
                       key={i}
