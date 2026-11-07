@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
-  Sparkles,
   Plus,
   Minus,
   Square,
@@ -9,7 +8,7 @@ import {
   Search,
   Settings,
   Folder,
-  Terminal,
+  Terminal as TerminalIcon,
   Maximize2,
   Columns,
   Rows,
@@ -17,8 +16,8 @@ import {
   Play,
   Pause,
   RotateCcw,
-  MousePointer,
-  Zap
+  Zap,
+  Camera
 } from 'lucide-react';
 
 export const TerminalMockup: React.FC = () => {
@@ -32,6 +31,7 @@ export const TerminalMockup: React.FC = () => {
   // Interactive vs Auto Split Position
   const [splitPos, setSplitPos] = useState<number>(50); // percentage
   const [isUserDragging, setIsUserDragging] = useState<boolean>(false);
+  const [isAutoDragging, setIsAutoDragging] = useState<boolean>(false);
   const [userInteracted, setUserInteracted] = useState<boolean>(false);
 
   // Dynamic animated content
@@ -42,21 +42,18 @@ export const TerminalMockup: React.FC = () => {
     '$ omp --help',
     'Autonomous CLI companion connected to Kingsley ConPTY.'
   ]);
-  const [virtualCursor, setVirtualCursor] = useState<{
-    x: number;
-    y: number;
-    visible: boolean;
-    clicking: boolean;
-  }>({ x: 500, y: 220, visible: false, clicking: false });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const idleResumeTimerRef = useRef<number | undefined>(undefined);
 
-  // FAST CONTINUOUS MOTION ENGINE (4.5s loop, non-stop)
+  // AUTHENTIC KINGSLEY RAPID CONTINUOUS MOTION ENGINE (4.0s non-stop loop)
   useEffect(() => {
-    if (!isPlaying || userInteracted) return;
+    if (!isPlaying || userInteracted) {
+      setIsAutoDragging(false);
+      return;
+    }
 
-    const baseDuration = 4500;
+    const baseDuration = 4200;
     const duration = baseDuration / speedMultiplier;
     const startTime = Date.now();
 
@@ -64,38 +61,31 @@ export const TerminalMockup: React.FC = () => {
       const elapsed = (Date.now() - startTime) % duration;
       const normalizedTime = (elapsed / duration) * baseDuration;
 
-      // PHASE 1: 0ms - 1300ms (Rapid Keystroke Typing in Left Pane)
-      if (normalizedTime < 1300) {
+      // PHASE 1: 0ms - 1100ms (Left Pane Focused & Typing)
+      if (normalizedTime < 1100) {
+        setIsAutoDragging(false);
         setActivePane('left');
-        setVirtualCursor({ x: 380, y: 310, visible: true, clicking: false });
 
         const cmd = 'git status --short';
-        const typeProgress = Math.min(Math.floor((normalizedTime / 800) * cmd.length), cmd.length);
+        const typeProgress = Math.min(Math.floor((normalizedTime / 700) * cmd.length), cmd.length);
         setTypedText(cmd.slice(0, typeProgress));
-        setShowStatusOutput(normalizedTime > 850);
+        setShowStatusOutput(normalizedTime > 750);
       }
-      // PHASE 2: 1300ms - 3000ms (Rapid Fluid Split Divider Drag)
-      else if (normalizedTime >= 1300 && normalizedTime < 3000) {
-        const dragProgress = (normalizedTime - 1300) / 1700; // 0 to 1
-        // Dynamic sine wave: 50% -> 34% -> 66% -> 50%
-        const offset = Math.sin(dragProgress * Math.PI * 2) * 16;
+      // PHASE 2: 1100ms - 2700ms (Authentic ResizeHandle Fluid Drag Animation)
+      else if (normalizedTime >= 1100 && normalizedTime < 2700) {
+        setIsAutoDragging(true);
+        const dragProgress = (normalizedTime - 1100) / 1600; // 0 to 1
+        // Smooth sine wave: 50% -> 35% -> 65% -> 50%
+        const offset = Math.sin(dragProgress * Math.PI * 2) * 15;
         const currentSplit = 50 + offset;
         setSplitPos(currentSplit);
-
-        // Position virtual cursor grabbing divider
-        if (containerRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-          const sidebarWidth = isSidebarOpen ? 180 : 0;
-          const dividerX = sidebarWidth + ((rect.width - sidebarWidth) * currentSplit) / 100;
-          setVirtualCursor({ x: dividerX, y: 220, visible: true, clicking: true });
-        }
       }
-      // PHASE 3: 3000ms - 4200ms (Fast AI Agent Output Cascade in Right Pane)
-      else if (normalizedTime >= 3000 && normalizedTime < 4200) {
+      // PHASE 3: 2700ms - 3900ms (Right Pane Focus & Live Agent Output Stream)
+      else if (normalizedTime >= 2700 && normalizedTime < 3900) {
+        setIsAutoDragging(false);
         setActivePane('right');
-        setVirtualCursor({ x: 740, y: 240, visible: true, clicking: false });
 
-        const agentPhase = normalizedTime - 3000;
+        const agentPhase = normalizedTime - 2700;
         if (agentPhase < 400) {
           setAgentLogs([
             'Gemini-3.8-flash agent pipe active.',
@@ -117,21 +107,20 @@ export const TerminalMockup: React.FC = () => {
           ]);
         }
       }
-      // PHASE 4: 4200ms - 4500ms (Smooth seamless loop reset)
+      // PHASE 4: 3900ms - 4200ms (Instant seamless reset into next loop)
       else {
+        setIsAutoDragging(false);
         setSplitPos(50);
-        setVirtualCursor({ x: 500, y: 220, visible: false, clicking: false });
       }
-    }, 25);
+    }, 20);
 
     return () => clearInterval(frameInterval);
   }, [isPlaying, userInteracted, isSidebarOpen, speedMultiplier]);
 
-  // Handle User Manual Interaction (pauses auto-motion, allows manual drag)
+  // User manual interaction handling
   const handleUserTouch = () => {
     setUserInteracted(true);
     clearTimeout(idleResumeTimerRef.current);
-    // Resume auto-motion after 5 seconds of inactivity
     idleResumeTimerRef.current = window.setTimeout(() => {
       setUserInteracted(false);
     }, 5000);
@@ -175,24 +164,26 @@ export const TerminalMockup: React.FC = () => {
     };
   }, [isUserDragging, handleMouseMove, handleMouseUp]);
 
+  const isDraggingActive = isUserDragging || isAutoDragging;
+
   return (
     <div className="relative w-full max-w-5xl mx-auto group">
       {/* Subtle Ambient Radial Glow */}
-      <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-cyan-500/20 via-blue-600/15 to-indigo-600/20 blur-xl opacity-80 group-hover:opacity-100 transition duration-500" />
+      <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-[#00d2d3]/20 via-blue-600/15 to-cyan-500/20 blur-xl opacity-80 group-hover:opacity-100 transition duration-500" />
 
       {/* Control & Live Speed Status Bar */}
       <div className="mb-3 flex items-center justify-between px-2">
         <div className="flex items-center gap-2">
           {/* Live Continuous Loop Pill */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#12161f] border border-white/10 text-xs font-mono shadow-sm">
             <span
               className={`w-2 h-2 rounded-full ${
                 isPlaying && !userInteracted
-                  ? 'bg-cyan-400 animate-ping'
+                  ? 'bg-[#00d2d3] animate-ping'
                   : 'bg-amber-400'
               }`}
             />
-            <span className="text-zinc-200 font-medium">
+            <span className="text-slate-200 font-medium">
               {isPlaying && !userInteracted
                 ? '⚡ Continuous Motion Engine (Non-Stop Loop)'
                 : 'Interactive Mode (User Override)'}
@@ -205,7 +196,7 @@ export const TerminalMockup: React.FC = () => {
               setUserInteracted(false);
             }}
             title={isPlaying ? 'Pause Motion' : 'Play Motion'}
-            className="p-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="p-1.5 rounded-lg bg-[#12161f] hover:bg-[#1a202c] border border-white/10 text-slate-400 hover:text-white transition-colors"
           >
             {isPlaying && !userInteracted ? (
               <Pause className="w-3.5 h-3.5" />
@@ -220,11 +211,11 @@ export const TerminalMockup: React.FC = () => {
             title="Toggle Motion Speed"
             className={`px-2 py-1 rounded-lg border text-[11px] font-mono flex items-center gap-1 transition-colors ${
               speedMultiplier === 1.5
-                ? 'bg-cyan-950 text-cyan-300 border-cyan-800'
-                : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-zinc-200'
+                ? 'bg-cyan-950/80 text-[#00d2d3] border-cyan-700/60'
+                : 'bg-[#12161f] text-slate-400 border-white/10 hover:text-slate-200'
             }`}
           >
-            <Zap className="w-3 h-3 text-cyan-400" />
+            <Zap className="w-3 h-3 text-[#00d2d3]" />
             <span>{speedMultiplier === 1.5 ? '1.5x Ultra-Fast' : '1x Fast'}</span>
           </button>
 
@@ -239,15 +230,15 @@ export const TerminalMockup: React.FC = () => {
               ]);
             }}
             title="Reset to 50/50 Split"
-            className="p-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="p-1.5 rounded-lg bg-[#12161f] hover:bg-[#1a202c] border border-white/10 text-slate-400 hover:text-white transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-zinc-400">
-          <span className="text-cyan-400">Live Split:</span>
-          <span className="bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-zinc-200 font-semibold">
+        <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-slate-400">
+          <span className="text-[#00d2d3]">Live Split:</span>
+          <span className="bg-[#12161f] px-2 py-0.5 rounded border border-white/10 text-slate-200 font-semibold">
             {Math.round(splitPos)}% : {100 - Math.round(splitPos)}%
           </span>
         </div>
@@ -257,12 +248,12 @@ export const TerminalMockup: React.FC = () => {
       <div
         ref={containerRef}
         onMouseEnter={() => handleUserTouch()}
-        className="relative rounded-xl border border-zinc-800 bg-[#0c0e12] shadow-2xl shadow-black overflow-hidden select-none font-mono text-xs"
+        className="relative rounded-xl border border-white/10 bg-[#0c0e12] shadow-2xl shadow-black overflow-hidden select-none font-mono text-xs"
       >
         {/* ========================================================================= */}
-        {/* AUTHENTIC KINGSLEY TITLEBAR                                               */}
+        {/* AUTHENTIC KINGSLEY TITLEBAR (from TitleBar.tsx)                            */}
         {/* ========================================================================= */}
-        <div className="h-9 bg-[#12161f] border-b border-zinc-800/80 px-3 flex items-center justify-between text-zinc-400 text-[11px]">
+        <div className="h-9 bg-[#12161f] border-b border-white/10 px-3 flex items-center justify-between text-slate-400 text-[11px]">
           <div className="flex items-center gap-2">
             <button
               onClick={() => {
@@ -270,12 +261,12 @@ export const TerminalMockup: React.FC = () => {
                 setIsSidebarOpen(!isSidebarOpen);
               }}
               title="Toggle Sidebar"
-              className="p-1 hover:text-zinc-200 hover:bg-zinc-800/60 rounded transition-colors"
+              className="p-1 hover:text-white hover:bg-white/5 rounded transition-colors"
             >
-              <PanelLeft className="w-3.5 h-3.5 text-cyan-400" />
+              <PanelLeft className="w-3.5 h-3.5 text-[#00d2d3]" />
             </button>
 
-            {/* Tabs */}
+            {/* Tabs matching TitleBar.tsx */}
             <div className="flex items-center gap-1">
               <div
                 onClick={() => {
@@ -284,13 +275,13 @@ export const TerminalMockup: React.FC = () => {
                 }}
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded cursor-pointer transition-colors text-[11px] ${
                   activeTab === 'kingsley'
-                    ? 'bg-[#1a202c] text-zinc-100 border-b-2 border-cyan-400 font-medium'
-                    : 'text-zinc-500 hover:text-zinc-300'
+                    ? 'bg-[#1a202c] text-white border-b-2 border-[#00d2d3] font-medium'
+                    : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                <Terminal className="w-3 h-3 text-cyan-400" />
+                <TerminalIcon className="w-3 h-3 text-[#00d2d3]" />
                 <span>Kingsley 1</span>
-                <X className="w-3 h-3 text-zinc-600 hover:text-zinc-400 ml-1" />
+                <X className="w-3 h-3 text-slate-600 hover:text-slate-400 ml-1" />
               </div>
               <div
                 onClick={() => {
@@ -299,29 +290,29 @@ export const TerminalMockup: React.FC = () => {
                 }}
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded cursor-pointer transition-colors text-[11px] ${
                   activeTab === 'sesitanya'
-                    ? 'bg-[#1a202c] text-zinc-100 border-b-2 border-cyan-400 font-medium'
-                    : 'text-zinc-500 hover:text-zinc-300'
+                    ? 'bg-[#1a202c] text-white border-b-2 border-[#00d2d3] font-medium'
+                    : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
                 <Folder className="w-3 h-3 text-amber-400" />
                 <span>terminal 2</span>
-                <X className="w-3 h-3 text-zinc-600 hover:text-zinc-400 ml-1" />
+                <X className="w-3 h-3 text-slate-600 hover:text-slate-400 ml-1" />
               </div>
-              <span className="p-1 text-zinc-500 hover:text-zinc-300 cursor-pointer">
+              <span className="p-1 text-slate-500 hover:text-slate-300 cursor-pointer">
                 <Plus className="w-3 h-3" />
               </span>
             </div>
           </div>
 
           {/* Search Bar / Command Palette */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded bg-[#090b0e] border border-zinc-800/80 text-[10px] text-zinc-500">
+          <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded bg-[#090b0e] border border-white/5 text-[10px] text-slate-500">
             <Search className="w-3 h-3" />
             <span>Search projects, commands, terminals... Ctrl+K</span>
           </div>
 
           {/* System Telemetry & Caption Controls */}
           <div className="flex items-center gap-2">
-            <span className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-[#1a202c] text-zinc-400 text-[10px]">
+            <span className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-[#1a202c] text-slate-400 text-[10px]">
               Default
             </span>
             <span className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 text-[10px]">
@@ -330,7 +321,7 @@ export const TerminalMockup: React.FC = () => {
             <span className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-blue-950/70 text-blue-300 border border-blue-800/50 text-[10px]">
               2224 MB
             </span>
-            <div className="flex items-center gap-2 text-zinc-500 pl-2">
+            <div className="flex items-center gap-2 text-slate-500 pl-2">
               <Minus className="w-3 h-3" />
               <Square className="w-3 h-3" />
               <X className="w-3 h-3" />
@@ -342,64 +333,64 @@ export const TerminalMockup: React.FC = () => {
         {/* APP BODY: SIDEBAR + SPLIT WORKSPACE                                       */}
         {/* ========================================================================= */}
         <div className="flex h-[430px] w-full overflow-hidden bg-[#0c0e12] relative">
-          {/* Authentic Kingsley Left Sidebar */}
+          {/* Authentic Kingsley Left Sidebar (from Sidebar.tsx) */}
           {isSidebarOpen && (
-            <div className="w-44 bg-[#12161f] border-r border-zinc-800 flex flex-col justify-between p-3 select-none shrink-0 transition-all">
+            <div className="w-44 bg-[#12161f] border-r border-white/10 flex flex-col justify-between p-3 select-none shrink-0 transition-all">
               <div className="space-y-4">
-                <div className="flex items-center justify-between text-[10px] font-bold text-zinc-400 tracking-wider">
+                <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 tracking-wider">
                   <span>PROJECTS</span>
-                  <Plus className="w-3 h-3 text-zinc-500 hover:text-zinc-200 cursor-pointer" />
+                  <Plus className="w-3 h-3 text-slate-500 hover:text-white cursor-pointer" />
                 </div>
 
                 {/* Projects Tree */}
                 <div className="space-y-2 text-[11px]">
                   <div>
-                    <div className="flex items-center gap-1.5 text-zinc-300 py-0.5">
+                    <div className="flex items-center gap-1.5 text-slate-300 py-0.5">
                       <Folder className="w-3.5 h-3.5 text-amber-400" />
                       <span className="font-medium">Sesi tanya</span>
                     </div>
-                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-zinc-400 text-[10px]">
-                      <Terminal className="w-3 h-3 text-zinc-500" />
+                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-slate-400 text-[10px]">
+                      <TerminalIcon className="w-3 h-3 text-slate-500" />
                       <span>shell</span>
                     </div>
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-1.5 text-zinc-300 py-0.5">
+                    <div className="flex items-center gap-1.5 text-slate-300 py-0.5">
                       <Folder className="w-3.5 h-3.5 text-blue-400" />
                       <span className="font-medium">Maybee</span>
                     </div>
-                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-zinc-400 text-[10px]">
-                      <Terminal className="w-3 h-3 text-zinc-500" />
+                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-slate-400 text-[10px]">
+                      <TerminalIcon className="w-3 h-3 text-slate-500" />
                       <span>shell</span>
                     </div>
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-1.5 text-cyan-300 py-0.5">
-                      <Folder className="w-3.5 h-3.5 text-cyan-400" />
+                    <div className="flex items-center gap-1.5 text-[#00d2d3] py-0.5">
+                      <Folder className="w-3.5 h-3.5 text-[#00d2d3]" />
                       <span className="font-medium">Kingsley</span>
                     </div>
-                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-cyan-400 text-[10px] bg-cyan-950/40 rounded px-1.5 border border-cyan-800/40 font-semibold">
-                      <Sparkles className="w-3 h-3 text-cyan-400" />
+                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-[#00d2d3] text-[10px] bg-cyan-950/40 rounded px-1.5 border border-cyan-800/40 font-semibold">
+                      <TerminalIcon className="w-3 h-3 text-[#00d2d3]" />
                       <span>opencode</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Sidebar Footer: Jopal Operator Profile */}
-              <div className="pt-2 border-t border-zinc-800 flex items-center justify-between">
+              {/* Sidebar Footer: Jopal Operator Profile (OperatorCard.tsx) */}
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-[10px]">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#00d2d3] to-blue-600 flex items-center justify-center text-white font-bold text-[10px]">
                     J
                   </div>
                   <div>
-                    <p className="text-zinc-200 font-bold text-[10px] leading-tight">Jopal</p>
-                    <p className="text-zinc-500 text-[9px] leading-tight">local account</p>
+                    <p className="text-slate-200 font-bold text-[10px] leading-tight">Jopal</p>
+                    <p className="text-slate-500 text-[9px] leading-tight">local account</p>
                   </div>
                 </div>
-                <Settings className="w-3.5 h-3.5 text-zinc-500 hover:text-zinc-300 cursor-pointer" />
+                <Settings className="w-3.5 h-3.5 text-slate-500 hover:text-white cursor-pointer" />
               </div>
             </div>
           )}
@@ -413,86 +404,127 @@ export const TerminalMockup: React.FC = () => {
                 setActivePane('left');
               }}
               style={{ width: `${splitPos}%` }}
-              className={`h-full flex flex-col justify-between border-r border-zinc-800/80 transition-colors ${
-                activePane === 'left' ? 'bg-[#10131a]' : 'bg-[#0c0e12]'
+              className={`h-full flex flex-col justify-between transition-all duration-150 relative ${
+                activePane === 'left'
+                  ? 'bg-[#12161f] shadow-[inset_0_0_12px_rgba(0,210,211,0.08)]'
+                  : 'bg-[#0c0e12]'
               }`}
             >
-              {/* PaneHeader */}
-              <div className="h-7 bg-[#141924] border-b border-zinc-800 px-3 flex items-center justify-between text-[10px] text-zinc-400">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                  <span className="font-bold text-zinc-200">Kingsley</span>
-                  <span className="text-zinc-600">/</span>
-                  <span className="text-cyan-300 font-medium">opencode</span>
+              {/* PaneHeader (matching PaneHeader.tsx) */}
+              <div
+                className={`h-7 px-2.5 flex items-center justify-between text-xs select-none border-b transition-colors duration-150 font-mono ${
+                  activePane === 'left'
+                    ? 'bg-[#1a202c] text-white border-white/10'
+                    : 'bg-[#12161f] text-slate-400 border-white/5'
+                }`}
+              >
+                <div className="flex items-center gap-1.5 min-w-0 overflow-hidden whitespace-nowrap">
+                  {/* Active Pulse Dot from PaneHeader.tsx */}
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                      activePane === 'left'
+                        ? 'bg-emerald-400 animate-pulse'
+                        : 'bg-neutral-500'
+                    }`}
+                  />
+                  <TerminalIcon className="w-3.5 h-3.5 text-[#00a8ff] shrink-0" />
+                  <span className="font-bold text-slate-200 truncate">Kingsley</span>
+                  <span className="text-slate-600">/</span>
+                  <span className="text-[#00d2d3] font-medium truncate">opencode</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-zinc-500">
-                  <Columns className="w-3 h-3 hover:text-zinc-200 cursor-pointer" />
-                  <Rows className="w-3 h-3 hover:text-zinc-200 cursor-pointer" />
-                  <Maximize2 className="w-3 h-3 hover:text-zinc-200 cursor-pointer" />
-                  <X className="w-3 h-3 hover:text-zinc-200 cursor-pointer" />
+                <div className="flex items-center gap-1.5 text-slate-500 shrink-0">
+                  <Camera className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <Rows className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <Columns className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <Maximize2 className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <X className="w-3 h-3 hover:text-white cursor-pointer" />
                 </div>
               </div>
 
               {/* Code Viewer Preview (Top Half) */}
-              <div className="p-3 bg-[#0c0e12] border-b border-zinc-800/60 font-mono text-[10px] text-zinc-300 space-y-0.5 overflow-hidden">
-                <p className="text-zinc-500">// Kingsley Fluid Split ConPTY Engine</p>
+              <div className="p-3 bg-[#0c0e12] border-b border-white/5 font-mono text-[10px] text-slate-300 space-y-0.5 overflow-hidden">
+                <p className="text-slate-500">// Kingsley Fluid Split ConPTY Engine</p>
                 <p>
-                  <span className="text-cyan-400">const</span> primary = screen.
+                  <span className="text-[#00d2d3]">const</span> primary = screen.
                   <span className="text-amber-300">getPrimaryDisplay</span>()
                 </p>
                 <p>
-                  <span className="text-cyan-400">const</span> scale = primary.scaleFactor ||{' '}
+                  <span className="text-[#00d2d3]">const</span> scale = primary.scaleFactor ||{' '}
                   <span className="text-purple-400">1</span>
                 </p>
                 <p>
-                  <span className="text-cyan-400">const</span> sources ={' '}
-                  <span className="text-cyan-400">await</span> desktopCapturer.
+                  <span className="text-[#00d2d3]">const</span> sources ={' '}
+                  <span className="text-[#00d2d3]">await</span> desktopCapturer.
                   <span className="text-amber-300">getSources</span>({'{'} types: ['screen'] {'}'})
                 </p>
               </div>
 
               {/* Terminal Area (Bottom Half with Fast Keystrokes) */}
-              <div className="p-3 flex-1 overflow-y-auto space-y-1 text-[11px] font-mono text-zinc-300 bg-[#10131a]">
-                <p className="text-zinc-400">
+              <div className="p-3 flex-1 overflow-y-auto space-y-1 text-[11px] font-mono text-slate-300 bg-[#10131a]">
+                <p className="text-slate-400">
                   <span className="text-emerald-400">kingsley</span>
-                  <span className="text-zinc-500">:</span>
-                  <span className="text-cyan-400">~/app</span>
-                  <span className="text-zinc-500"> (main)</span>
+                  <span className="text-slate-500">:</span>
+                  <span className="text-[#00d2d3]">~/app</span>
+                  <span className="text-slate-500"> (main)</span>
                 </p>
-                <p className="text-zinc-200">
+                <p className="text-slate-200">
                   $ {typedText}
-                  <span className="w-2 h-3.5 inline-block bg-cyan-400 ml-1 animate-pulse align-middle" />
+                  <span className="w-2 h-3.5 inline-block bg-[#00d2d3] ml-1 animate-pulse align-middle" />
                 </p>
                 {showStatusOutput && (
                   <div className="space-y-0.5 text-[10px] pt-1">
                     <p className="text-emerald-400 font-semibold"> M src/multiplexer/conpty.rs</p>
                     <p className="text-emerald-400 font-semibold"> M src/ui/ResizeHandle.tsx</p>
-                    <p className="text-zinc-400 font-mono">✓ ConPTY stream active (0.18ms latency)</p>
+                    <p className="text-slate-400 font-mono">✓ ConPTY stream active (0.18ms latency)</p>
                   </div>
                 )}
               </div>
 
               {/* Pane Footer Action Bar */}
-              <div className="h-7 bg-[#141924] border-t border-zinc-800/60 px-3 flex items-center justify-between text-[10px] text-zinc-400">
+              <div className="h-7 bg-[#141924] border-t border-white/5 px-3 flex items-center justify-between text-[10px] text-slate-400">
                 <span className="text-emerald-400 flex items-center gap-1 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                   ConPTY Pipe Ready (0.18ms)
                 </span>
-                <span className="text-zinc-500">DeepSeek V4.1 • OpenCode</span>
+                <span className="text-slate-500">DeepSeek V4.1 • OpenCode</span>
               </div>
             </div>
 
-            {/* Draggable Divider (ResizeHandle) with Live Animated Movement */}
+            {/* ===================================================================== */}
+            {/* EXACT RESIZEHANDLE COMPONENT FROM KINGSLEY (ResizeHandle.tsx)         */}
+            {/* ===================================================================== */}
             <div
               onMouseDown={handleMouseDown}
-              className={`w-1.5 h-full cursor-col-resize flex items-center justify-center transition-all z-20 ${
-                isUserDragging || (isPlaying && !userInteracted)
-                  ? 'bg-cyan-400 shadow-[0_0_16px_rgba(6,182,212,0.9)]'
-                  : 'bg-zinc-800 hover:bg-cyan-500/80'
+              role="separator"
+              aria-orientation="vertical"
+              className={`relative z-40 group flex items-center justify-center select-none shrink-0 transition-all w-3 h-full cursor-col-resize -mx-1.5 ${
+                isDraggingActive ? 'z-50' : ''
               }`}
-              title="Drag divider horizontally to resize"
+              title="Resize split panes"
             >
-              <div className="w-0.5 h-4 bg-zinc-900 rounded pointer-events-none" />
+              {/* Hairline 1px border track */}
+              <div
+                className={`transition-all duration-150 relative flex items-center justify-center w-[1px] h-full ${
+                  isDraggingActive
+                    ? 'opacity-100 shadow-[0_0_10px_rgba(0,210,211,0.85)]'
+                    : 'opacity-35 group-hover:opacity-100 group-hover:shadow-[0_0_8px_rgba(0,210,211,0.6)]'
+                }`}
+                style={{
+                  backgroundColor: '#00d2d3',
+                }}
+              >
+                {/* Subtle micro grip pill for visual affordance (8px high) */}
+                <div
+                  className={`absolute rounded-full transition-all duration-150 w-1.5 h-8 ${
+                    isDraggingActive
+                      ? 'opacity-100 scale-100 shadow-[0_0_12px_rgba(0,210,211,1)]'
+                      : 'opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-75'
+                  }`}
+                  style={{
+                    backgroundColor: '#00d2d3',
+                  }}
+                />
+              </div>
             </div>
 
             {/* RIGHT PANE: Sesi tanya shell with omp agent */}
@@ -502,36 +534,53 @@ export const TerminalMockup: React.FC = () => {
                 setActivePane('right');
               }}
               style={{ width: `${100 - splitPos}%` }}
-              className={`h-full flex flex-col justify-between transition-colors ${
-                activePane === 'right' ? 'bg-[#10131a]' : 'bg-[#0c0e12]'
+              className={`h-full flex flex-col justify-between transition-all duration-150 relative ${
+                activePane === 'right'
+                  ? 'bg-[#12161f] shadow-[inset_0_0_12px_rgba(0,210,211,0.08)]'
+                  : 'bg-[#0c0e12]'
               }`}
             >
-              {/* PaneHeader */}
-              <div className="h-7 bg-[#141924] border-b border-zinc-800 px-3 flex items-center justify-between text-[10px] text-zinc-400">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span className="font-bold text-zinc-200">Sesi tanya</span>
-                  <span className="text-zinc-600">/</span>
-                  <span className="text-emerald-300 font-medium">shell (omp)</span>
+              {/* PaneHeader (matching PaneHeader.tsx) */}
+              <div
+                className={`h-7 px-2.5 flex items-center justify-between text-xs select-none border-b transition-colors duration-150 font-mono ${
+                  activePane === 'right'
+                    ? 'bg-[#1a202c] text-white border-white/10'
+                    : 'bg-[#12161f] text-slate-400 border-white/5'
+                }`}
+              >
+                <div className="flex items-center gap-1.5 min-w-0 overflow-hidden whitespace-nowrap">
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                      activePane === 'right'
+                        ? 'bg-emerald-400 animate-pulse'
+                        : 'bg-neutral-500'
+                    }`}
+                  />
+                  <TerminalIcon className="w-3.5 h-3.5 text-[#00a8ff] shrink-0" />
+                  <span className="font-bold text-slate-200 truncate">Sesi tanya</span>
+                  <span className="text-slate-600">/</span>
+                  <span className="text-emerald-300 font-medium truncate">shell (omp)</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-zinc-500">
-                  <Columns className="w-3 h-3 hover:text-zinc-200 cursor-pointer" />
-                  <Maximize2 className="w-3 h-3 hover:text-zinc-200 cursor-pointer" />
-                  <X className="w-3 h-3 hover:text-zinc-200 cursor-pointer" />
+                <div className="flex items-center gap-1.5 text-slate-500 shrink-0">
+                  <Camera className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <Rows className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <Columns className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <Maximize2 className="w-3 h-3 hover:text-white cursor-pointer" />
+                  <X className="w-3 h-3 hover:text-white cursor-pointer" />
                 </div>
               </div>
 
               {/* Fast Streaming AI Logs */}
-              <div className="p-3 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-zinc-300 bg-[#0c0e12]">
+              <div className="p-3 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-slate-300 bg-[#0c0e12]">
                 {agentLogs.map((log, i) => (
                   <p
                     key={i}
                     className={`leading-relaxed ${
                       log.startsWith('✓')
-                        ? 'text-cyan-300 font-semibold'
+                        ? 'text-[#00d2d3] font-semibold'
                         : log.startsWith('$')
-                        ? 'text-zinc-200'
-                        : 'text-zinc-400'
+                        ? 'text-slate-200'
+                        : 'text-slate-400'
                     }`}
                   >
                     {log}
@@ -540,55 +589,31 @@ export const TerminalMockup: React.FC = () => {
               </div>
 
               {/* Pane Footer Action Bar */}
-              <div className="h-7 bg-[#141924] border-t border-zinc-800/60 px-3 flex items-center justify-between text-[10px] text-zinc-400">
-                <span className="text-cyan-300 font-mono text-[10px] font-medium">
+              <div className="h-7 bg-[#141924] border-t border-white/5 px-3 flex items-center justify-between text-[10px] text-slate-400">
+                <span className="text-[#00d2d3] font-mono text-[10px] font-medium">
                   Split: {Math.round(splitPos)}% : {100 - Math.round(splitPos)}%
                 </span>
-                <span className="text-zinc-500 font-mono text-[9px]">[high] Gemini 3.5</span>
+                <span className="text-slate-500 font-mono text-[9px]">[high] Gemini 3.5</span>
               </div>
             </div>
-
-            {/* Virtual Simulated Mouse Cursor Animation (Showcases Kingsley's Fluid Drag) */}
-            {virtualCursor.visible && isPlaying && !userInteracted && (
-              <div
-                style={{
-                  left: `${virtualCursor.x}px`,
-                  top: `${virtualCursor.y}px`
-                }}
-                className="pointer-events-none absolute z-30 transition-all duration-75 ease-out"
-              >
-                <div className="relative">
-                  <MousePointer
-                    className={`w-4 h-4 text-white drop-shadow-md transition-transform ${
-                      virtualCursor.clicking ? 'scale-90 text-cyan-300' : 'scale-100'
-                    }`}
-                  />
-                  {virtualCursor.clicking && (
-                    <span className="absolute -top-5 left-4 px-1.5 py-0.5 rounded text-[9px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 whitespace-nowrap shadow-md">
-                      Fluid Resize Drag
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* AUTHENTIC KINGSLEY STATUSBAR                                              */}
+        {/* AUTHENTIC KINGSLEY STATUSBAR (StatusBar.tsx)                               */}
         {/* ========================================================================= */}
-        <div className="h-6 bg-[#090b0e] border-t border-zinc-800 px-3 flex items-center justify-between text-[10px] text-zinc-500 font-mono">
+        <div className="h-6 bg-[#090b0e] border-t border-white/10 px-3 flex items-center justify-between text-[10px] text-slate-500 font-mono">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1 text-emerald-400">
               <Check className="w-3 h-3" /> ConPTY IPC Connected (0.18ms)
             </span>
-            <span className="text-zinc-700">|</span>
-            <span className="text-zinc-400">1 shell • 111.2K (56%) ctrl+p commands</span>
+            <span className="text-slate-700">|</span>
+            <span className="text-slate-400">1 shell • 111.2K (56%) ctrl+p commands</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-cyan-400">[high] Gemini 3.5 Flash Lite</span>
-            <span className="text-zinc-700">•</span>
-            <span className="text-zinc-500">v1.0.0 Stable</span>
+            <span className="text-[#00d2d3]">[high] Gemini 3.5 Flash Lite</span>
+            <span className="text-slate-700">•</span>
+            <span className="text-slate-500">v1.0.0 Stable</span>
           </div>
         </div>
       </div>
