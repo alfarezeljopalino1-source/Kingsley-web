@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { BentoGrid } from './components/BentoGrid';
-import { ComparisonTable } from './components/ComparisonTable';
+import { WorkflowShowcase } from './components/WorkflowShowcase';
 import { Shortcuts } from './components/Shortcuts';
 import { DownloadMatrix } from './components/DownloadMatrix';
 import { Footer } from './components/Footer';
@@ -14,7 +14,7 @@ export const App: React.FC = () => {
       <main>
         <Hero />
         <BentoGrid />
-        <ComparisonTable />
+        <WorkflowShowcase />
         <Shortcuts />
         <DownloadMatrix />
       </main>

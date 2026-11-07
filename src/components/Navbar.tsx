@@ -76,8 +76,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
             <a href="#features" className="hover:text-zinc-100 transition-colors">
               Features
             </a>
-            <a href="#comparison" className="hover:text-zinc-100 transition-colors">
-              Comparison
+            <a href="#themes" className="hover:text-zinc-100 transition-colors">
+              Themes
             </a>
             <a href="#shortcuts" className="hover:text-zinc-100 transition-colors">
               Shortcuts
@@ -135,11 +135,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
             Features
           </a>
           <a
-            href="#comparison"
+            href="#themes"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-md text-sm font-medium text-zinc-300 hover:bg-zinc-900"
           >
-            Comparison
+            Themes
           </a>
           <a
             href="#shortcuts"
