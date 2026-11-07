@@ -13,101 +13,93 @@ import {
   Columns,
   Rows,
   Check,
-  Play,
-  Pause,
-  RotateCcw,
-  Zap,
-  Camera
+  Camera,
+  History,
+  Grid
 } from 'lucide-react';
 
 export const TerminalMockup: React.FC = () => {
-  // Motion loop state
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [speedMultiplier, setSpeedMultiplier] = useState<1 | 1.5>(1);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState<'kingsley' | 'sesitanya'>('kingsley');
+  const [activeTab, setActiveTab] = useState<'kingsley' | 'sesitanya' | 'kingsleyweb'>('kingsleyweb');
   const [activePane, setActivePane] = useState<'left' | 'right'>('left');
 
-  // Interactive vs Auto Split Position
-  const [splitPos, setSplitPos] = useState<number>(50); // percentage
+  // Split Position state (50% default)
+  const [splitPos, setSplitPos] = useState<number>(50);
   const [isUserDragging, setIsUserDragging] = useState<boolean>(false);
   const [isAutoDragging, setIsAutoDragging] = useState<boolean>(false);
   const [userInteracted, setUserInteracted] = useState<boolean>(false);
 
   // Dynamic animated content
-  const [typedText, setTypedText] = useState<string>('git status --short');
-  const [showStatusOutput, setShowStatusOutput] = useState<boolean>(true);
+  const [typedCommand, setTypedCommand] = useState<string>('npm run build');
+  const [showBuildOutput, setShowBuildOutput] = useState<boolean>(true);
   const [agentLogs, setAgentLogs] = useState<string[]>([
-    'Gemini-3.8-flash agent pipe active.',
-    '$ omp --help',
-    'Autonomous CLI companion connected to Kingsley ConPTY.'
+    '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s tok/s: 27.4/s',
+    'Esc running python',
+    '> Analyzing workspace components: 100% verified',
+    '> ConPTY IPC pipeline active: 0.18ms latency',
+    '> Auto-syncing live terminal states: READY'
   ]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const idleResumeTimerRef = useRef<number | undefined>(undefined);
 
-  // AUTHENTIC KINGSLEY RAPID CONTINUOUS MOTION ENGINE (4.0s non-stop loop)
+  // AESTHETIC CONTINUOUS MOTION ENGINE (4.2s non-stop rhythmic loop)
   useEffect(() => {
-    if (!isPlaying || userInteracted) {
+    if (userInteracted) {
       setIsAutoDragging(false);
       return;
     }
 
-    const baseDuration = 4200;
-    const duration = baseDuration / speedMultiplier;
+    const duration = 4200;
     const startTime = Date.now();
 
     const frameInterval = setInterval(() => {
       const elapsed = (Date.now() - startTime) % duration;
-      const normalizedTime = (elapsed / duration) * baseDuration;
 
-      // PHASE 1: 0ms - 1100ms (Left Pane Focused & Typing)
-      if (normalizedTime < 1100) {
+      // PHASE 1: 0ms - 1200ms (Left Pane active, fast keystroke typing & build trigger)
+      if (elapsed < 1200) {
         setIsAutoDragging(false);
         setActivePane('left');
 
-        const cmd = 'git status --short';
-        const typeProgress = Math.min(Math.floor((normalizedTime / 700) * cmd.length), cmd.length);
-        setTypedText(cmd.slice(0, typeProgress));
-        setShowStatusOutput(normalizedTime > 750);
+        const cmd = 'npm run build';
+        const typeProgress = Math.min(Math.floor((elapsed / 700) * cmd.length), cmd.length);
+        setTypedCommand(cmd.slice(0, typeProgress));
+        setShowBuildOutput(elapsed > 750);
       }
-      // PHASE 2: 1100ms - 2700ms (Authentic ResizeHandle Fluid Drag Animation)
-      else if (normalizedTime >= 1100 && normalizedTime < 2700) {
+      // PHASE 2: 1200ms - 2800ms (Authentic ResizeHandle Fluid Drag Animation: 50% -> 37% -> 63% -> 50%)
+      else if (elapsed >= 1200 && elapsed < 2800) {
         setIsAutoDragging(true);
-        const dragProgress = (normalizedTime - 1100) / 1600; // 0 to 1
-        // Smooth sine wave: 50% -> 35% -> 65% -> 50%
-        const offset = Math.sin(dragProgress * Math.PI * 2) * 15;
-        const currentSplit = 50 + offset;
-        setSplitPos(currentSplit);
+        const dragProgress = (elapsed - 1200) / 1600;
+        const offset = Math.sin(dragProgress * Math.PI * 2) * 14;
+        setSplitPos(50 + offset);
       }
-      // PHASE 3: 2700ms - 3900ms (Right Pane Focus & Live Agent Output Stream)
-      else if (normalizedTime >= 2700 && normalizedTime < 3900) {
+      // PHASE 3: 2800ms - 3900ms (Right Pane AI Agent Focus & Stream Response)
+      else if (elapsed >= 2800 && elapsed < 3900) {
         setIsAutoDragging(false);
         setActivePane('right');
 
-        const agentPhase = normalizedTime - 2700;
+        const agentPhase = elapsed - 2800;
         if (agentPhase < 400) {
           setAgentLogs([
-            'Gemini-3.8-flash agent pipe active.',
-            '$ omp --help',
-            'Autonomous CLI companion connected to Kingsley ConPTY.'
+            '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s',
+            '> Analyzing workspace components: 100% verified'
           ]);
         } else if (agentPhase >= 400 && agentPhase < 800) {
           setAgentLogs([
-            'Gemini-3.8-flash agent pipe active.',
-            '$ omp analyze-diff --conpty',
-            'Streaming live AST analysis (0.18ms latency)...'
+            '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s',
+            '> Analyzing workspace components: 100% verified',
+            '> ConPTY IPC pipeline active: 0.18ms latency'
           ]);
         } else {
           setAgentLogs([
-            'Gemini-3.8-flash agent pipe active.',
-            '$ omp analyze-diff --conpty',
-            'Streaming live AST analysis (0.18ms latency)...',
-            '✓ [high] Gemini 3.5 Flash Lite: 0.18ms verified. Ready.'
+            '2026-11-08 01:33:52 in: 2.2K out: 522 cache 294K t: 18.9s',
+            '> Analyzing workspace components: 100% verified',
+            '> ConPTY IPC pipeline active: 0.18ms latency',
+            '✓ [high] Gemini 3.8 Flash: All tasks completed successfully.'
           ]);
         }
       }
-      // PHASE 4: 3900ms - 4200ms (Instant seamless reset into next loop)
+      // PHASE 4: 3900ms - 4200ms (Seamless reset rolling into next cycle)
       else {
         setIsAutoDragging(false);
         setSplitPos(50);
@@ -115,9 +107,9 @@ export const TerminalMockup: React.FC = () => {
     }, 20);
 
     return () => clearInterval(frameInterval);
-  }, [isPlaying, userInteracted, isSidebarOpen, speedMultiplier]);
+  }, [userInteracted, isSidebarOpen]);
 
-  // User manual interaction handling
+  // User manual interaction
   const handleUserTouch = () => {
     setUserInteracted(true);
     clearTimeout(idleResumeTimerRef.current);
@@ -169,89 +161,16 @@ export const TerminalMockup: React.FC = () => {
   return (
     <div className="relative w-full max-w-5xl mx-auto group">
       {/* Subtle Ambient Radial Glow */}
-      <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-[#00d2d3]/20 via-blue-600/15 to-cyan-500/20 blur-xl opacity-80 group-hover:opacity-100 transition duration-500" />
+      <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-[#00d2d3]/20 via-blue-600/15 to-purple-600/20 blur-xl opacity-80 group-hover:opacity-100 transition duration-500" />
 
-      {/* Control & Live Speed Status Bar */}
-      <div className="mb-3 flex items-center justify-between px-2">
-        <div className="flex items-center gap-2">
-          {/* Live Continuous Loop Pill */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#12161f] border border-white/10 text-xs font-mono shadow-sm">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isPlaying && !userInteracted
-                  ? 'bg-[#00d2d3] animate-ping'
-                  : 'bg-amber-400'
-              }`}
-            />
-            <span className="text-slate-200 font-medium">
-              {isPlaying && !userInteracted
-                ? '⚡ Continuous Motion Engine (Non-Stop Loop)'
-                : 'Interactive Mode (User Override)'}
-            </span>
-          </div>
-
-          <button
-            onClick={() => {
-              setIsPlaying(!isPlaying);
-              setUserInteracted(false);
-            }}
-            title={isPlaying ? 'Pause Motion' : 'Play Motion'}
-            className="p-1.5 rounded-lg bg-[#12161f] hover:bg-[#1a202c] border border-white/10 text-slate-400 hover:text-white transition-colors"
-          >
-            {isPlaying && !userInteracted ? (
-              <Pause className="w-3.5 h-3.5" />
-            ) : (
-              <Play className="w-3.5 h-3.5" />
-            )}
-          </button>
-
-          {/* Speed Toggle (1x vs 1.5x Fast) */}
-          <button
-            onClick={() => setSpeedMultiplier(speedMultiplier === 1 ? 1.5 : 1)}
-            title="Toggle Motion Speed"
-            className={`px-2 py-1 rounded-lg border text-[11px] font-mono flex items-center gap-1 transition-colors ${
-              speedMultiplier === 1.5
-                ? 'bg-cyan-950/80 text-[#00d2d3] border-cyan-700/60'
-                : 'bg-[#12161f] text-slate-400 border-white/10 hover:text-slate-200'
-            }`}
-          >
-            <Zap className="w-3 h-3 text-[#00d2d3]" />
-            <span>{speedMultiplier === 1.5 ? '1.5x Ultra-Fast' : '1x Fast'}</span>
-          </button>
-
-          <button
-            onClick={() => {
-              setUserInteracted(false);
-              setSplitPos(50);
-              setAgentLogs([
-                'Gemini-3.8-flash agent pipe active.',
-                '$ omp --help',
-                'Autonomous CLI companion connected to Kingsley ConPTY.'
-              ]);
-            }}
-            title="Reset to 50/50 Split"
-            className="p-1.5 rounded-lg bg-[#12161f] hover:bg-[#1a202c] border border-white/10 text-slate-400 hover:text-white transition-colors"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-          </button>
-        </div>
-
-        <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-slate-400">
-          <span className="text-[#00d2d3]">Live Split:</span>
-          <span className="bg-[#12161f] px-2 py-0.5 rounded border border-white/10 text-slate-200 font-semibold">
-            {Math.round(splitPos)}% : {100 - Math.round(splitPos)}%
-          </span>
-        </div>
-      </div>
-
-      {/* Main Authentic Kingsley Window */}
+      {/* Main Authentic Kingsley Window (Clean, No Clutter Toolbar on Top) */}
       <div
         ref={containerRef}
         onMouseEnter={() => handleUserTouch()}
         className="relative rounded-xl border border-white/10 bg-[#0c0e12] shadow-2xl shadow-black overflow-hidden select-none font-mono text-xs"
       >
         {/* ========================================================================= */}
-        {/* AUTHENTIC KINGSLEY TITLEBAR (from TitleBar.tsx)                            */}
+        {/* AUTHENTIC KINGSLEY TITLEBAR (Exact from Kingsley TitleBar.tsx)            */}
         {/* ========================================================================= */}
         <div className="h-9 bg-[#12161f] border-b border-white/10 px-3 flex items-center justify-between text-slate-400 text-[11px]">
           <div className="flex items-center gap-2">
@@ -266,7 +185,7 @@ export const TerminalMockup: React.FC = () => {
               <PanelLeft className="w-3.5 h-3.5 text-[#00d2d3]" />
             </button>
 
-            {/* Tabs matching TitleBar.tsx */}
+            {/* Tabs matching live Kingsley */}
             <div className="flex items-center gap-1">
               <div
                 onClick={() => {
@@ -279,10 +198,11 @@ export const TerminalMockup: React.FC = () => {
                     : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                <TerminalIcon className="w-3 h-3 text-[#00d2d3]" />
+                <TerminalIcon className="w-3 h-3 text-[#00a8ff]" />
                 <span>Kingsley 1</span>
                 <X className="w-3 h-3 text-slate-600 hover:text-slate-400 ml-1" />
               </div>
+
               <div
                 onClick={() => {
                   handleUserTouch();
@@ -295,9 +215,26 @@ export const TerminalMockup: React.FC = () => {
                 }`}
               >
                 <Folder className="w-3 h-3 text-amber-400" />
-                <span>terminal 2</span>
+                <span>Sesi tanya 1</span>
                 <X className="w-3 h-3 text-slate-600 hover:text-slate-400 ml-1" />
               </div>
+
+              <div
+                onClick={() => {
+                  handleUserTouch();
+                  setActiveTab('kingsleyweb');
+                }}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded cursor-pointer transition-colors text-[11px] ${
+                  activeTab === 'kingsleyweb'
+                    ? 'bg-[#211936] text-purple-200 border-b-2 border-purple-500 font-semibold shadow-sm shadow-purple-500/20'
+                    : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                <Folder className="w-3 h-3 text-purple-400" />
+                <span>Kingsley Web 1</span>
+                <X className="w-3 h-3 text-purple-400/60 hover:text-purple-300 ml-1" />
+              </div>
+
               <span className="p-1 text-slate-500 hover:text-slate-300 cursor-pointer">
                 <Plus className="w-3 h-3" />
               </span>
@@ -307,7 +244,7 @@ export const TerminalMockup: React.FC = () => {
           {/* Search Bar / Command Palette */}
           <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded bg-[#090b0e] border border-white/5 text-[10px] text-slate-500">
             <Search className="w-3 h-3" />
-            <span>Search projects, commands, terminals... Ctrl+K</span>
+            <span>Q Command Ctrl+K</span>
           </div>
 
           {/* System Telemetry & Caption Controls */}
@@ -316,10 +253,10 @@ export const TerminalMockup: React.FC = () => {
               Default
             </span>
             <span className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 text-[10px]">
-              5%
+              7%
             </span>
             <span className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-blue-950/70 text-blue-300 border border-blue-800/50 text-[10px]">
-              2224 MB
+              3645 MB
             </span>
             <div className="flex items-center gap-2 text-slate-500 pl-2">
               <Minus className="w-3 h-3" />
@@ -333,16 +270,24 @@ export const TerminalMockup: React.FC = () => {
         {/* APP BODY: SIDEBAR + SPLIT WORKSPACE                                       */}
         {/* ========================================================================= */}
         <div className="flex h-[430px] w-full overflow-hidden bg-[#0c0e12] relative">
-          {/* Authentic Kingsley Left Sidebar (from Sidebar.tsx) */}
+          {/* Authentic Kingsley Left Sidebar (Exact from Sidebar.tsx) */}
           {isSidebarOpen && (
             <div className="w-44 bg-[#12161f] border-r border-white/10 flex flex-col justify-between p-3 select-none shrink-0 transition-all">
-              <div className="space-y-4">
+              <div className="space-y-3">
+                {/* Sidebar Top Mini Action Icons */}
+                <div className="flex items-center gap-2 pb-2 border-b border-white/5 text-slate-400">
+                  <Grid className="w-3.5 h-3.5 hover:text-white cursor-pointer" />
+                  <Folder className="w-3.5 h-3.5 hover:text-white cursor-pointer" />
+                  <History className="w-3.5 h-3.5 hover:text-white cursor-pointer" />
+                  <span className="text-[10px] text-slate-600 pl-1">Q Search</span>
+                </div>
+
                 <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 tracking-wider">
                   <span>PROJECTS</span>
                   <Plus className="w-3 h-3 text-slate-500 hover:text-white cursor-pointer" />
                 </div>
 
-                {/* Projects Tree */}
+                {/* Projects Tree matching live Kingsley */}
                 <div className="space-y-2 text-[11px]">
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-300 py-0.5">
@@ -367,13 +312,25 @@ export const TerminalMockup: React.FC = () => {
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-1.5 text-[#00d2d3] py-0.5">
+                    <div className="flex items-center gap-1.5 text-slate-300 py-0.5">
                       <Folder className="w-3.5 h-3.5 text-[#00d2d3]" />
                       <span className="font-medium">Kingsley</span>
                     </div>
-                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-[#00d2d3] text-[10px] bg-cyan-950/40 rounded px-1.5 border border-cyan-800/40 font-semibold">
-                      <TerminalIcon className="w-3 h-3 text-[#00d2d3]" />
-                      <span>opencode</span>
+                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-slate-400 text-[10px]">
+                      <TerminalIcon className="w-3 h-3 text-slate-500" />
+                      <span>shell</span>
+                    </div>
+                  </div>
+
+                  {/* Active Project: Kingsley Web */}
+                  <div>
+                    <div className="flex items-center gap-1.5 text-purple-300 py-0.5">
+                      <Folder className="w-3.5 h-3.5 text-purple-400" />
+                      <span className="font-semibold">Kingsley Web</span>
+                    </div>
+                    <div className="pl-4 py-0.5 flex items-center gap-1.5 text-purple-200 text-[10px] bg-purple-950/60 rounded px-1.5 border border-purple-800/60 font-semibold shadow-sm">
+                      <TerminalIcon className="w-3 h-3 text-purple-400" />
+                      <span>shell (active)</span>
                     </div>
                   </div>
                 </div>
@@ -382,12 +339,12 @@ export const TerminalMockup: React.FC = () => {
               {/* Sidebar Footer: Jopal Operator Profile (OperatorCard.tsx) */}
               <div className="pt-2 border-t border-white/10 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#00d2d3] to-blue-600 flex items-center justify-center text-white font-bold text-[10px]">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-purple-500 via-blue-600 to-[#00d2d3] flex items-center justify-center text-white font-bold text-[10px]">
                     J
                   </div>
                   <div>
                     <p className="text-slate-200 font-bold text-[10px] leading-tight">Jopal</p>
-                    <p className="text-slate-500 text-[9px] leading-tight">local account</p>
+                    <p className="text-slate-500 text-[9px] leading-tight">local account • Default</p>
                   </div>
                 </div>
                 <Settings className="w-3.5 h-3.5 text-slate-500 hover:text-white cursor-pointer" />
@@ -397,7 +354,7 @@ export const TerminalMockup: React.FC = () => {
 
           {/* Split Workspace */}
           <div className="flex-1 flex overflow-hidden bg-[#0c0e12] relative">
-            {/* LEFT PANE: Code Viewer + Interactive Shell */}
+            {/* LEFT PANE: Kingsley Web Developer Shell */}
             <div
               onClick={() => {
                 handleUserTouch();
@@ -410,7 +367,7 @@ export const TerminalMockup: React.FC = () => {
                   : 'bg-[#0c0e12]'
               }`}
             >
-              {/* PaneHeader (matching PaneHeader.tsx) */}
+              {/* PaneHeader (PaneHeader.tsx) */}
               <div
                 className={`h-7 px-2.5 flex items-center justify-between text-xs select-none border-b transition-colors duration-150 font-mono ${
                   activePane === 'left'
@@ -419,7 +376,6 @@ export const TerminalMockup: React.FC = () => {
                 }`}
               >
                 <div className="flex items-center gap-1.5 min-w-0 overflow-hidden whitespace-nowrap">
-                  {/* Active Pulse Dot from PaneHeader.tsx */}
                   <span
                     className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                       activePane === 'left'
@@ -428,9 +384,9 @@ export const TerminalMockup: React.FC = () => {
                     }`}
                   />
                   <TerminalIcon className="w-3.5 h-3.5 text-[#00a8ff] shrink-0" />
-                  <span className="font-bold text-slate-200 truncate">Kingsley</span>
+                  <span className="font-bold text-slate-200 truncate">Kingsley Web</span>
                   <span className="text-slate-600">/</span>
-                  <span className="text-[#00d2d3] font-medium truncate">opencode</span>
+                  <span className="text-purple-300 font-medium truncate">shell</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-slate-500 shrink-0">
                   <Camera className="w-3 h-3 hover:text-white cursor-pointer" />
@@ -441,41 +397,25 @@ export const TerminalMockup: React.FC = () => {
                 </div>
               </div>
 
-              {/* Code Viewer Preview (Top Half) */}
-              <div className="p-3 bg-[#0c0e12] border-b border-white/5 font-mono text-[10px] text-slate-300 space-y-0.5 overflow-hidden">
-                <p className="text-slate-500">// Kingsley Fluid Split ConPTY Engine</p>
-                <p>
-                  <span className="text-[#00d2d3]">const</span> primary = screen.
-                  <span className="text-amber-300">getPrimaryDisplay</span>()
-                </p>
-                <p>
-                  <span className="text-[#00d2d3]">const</span> scale = primary.scaleFactor ||{' '}
-                  <span className="text-purple-400">1</span>
-                </p>
-                <p>
-                  <span className="text-[#00d2d3]">const</span> sources ={' '}
-                  <span className="text-[#00d2d3]">await</span> desktopCapturer.
-                  <span className="text-amber-300">getSources</span>({'{'} types: ['screen'] {'}'})
-                </p>
-              </div>
-
-              {/* Terminal Area (Bottom Half with Fast Keystrokes) */}
-              <div className="p-3 flex-1 overflow-y-auto space-y-1 text-[11px] font-mono text-slate-300 bg-[#10131a]">
+              {/* Developer Terminal Content (Build & Compile) */}
+              <div className="p-3.5 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-slate-300 bg-[#10131a]">
                 <p className="text-slate-400">
-                  <span className="text-emerald-400">kingsley</span>
-                  <span className="text-slate-500">:</span>
-                  <span className="text-[#00d2d3]">~/app</span>
-                  <span className="text-slate-500"> (main)</span>
-                </p>
-                <p className="text-slate-200">
-                  $ {typedText}
+                  <span className="text-purple-400 font-semibold">PS</span>{' '}
+                  <span className="text-slate-500">D:\backup data C\OneDrive\Kingsley Web&gt;</span>{' '}
+                  <span className="text-slate-100 font-medium">{typedCommand}</span>
                   <span className="w-2 h-3.5 inline-block bg-[#00d2d3] ml-1 animate-pulse align-middle" />
                 </p>
-                {showStatusOutput && (
-                  <div className="space-y-0.5 text-[10px] pt-1">
-                    <p className="text-emerald-400 font-semibold"> M src/multiplexer/conpty.rs</p>
-                    <p className="text-emerald-400 font-semibold"> M src/ui/ResizeHandle.tsx</p>
-                    <p className="text-slate-400 font-mono">✓ ConPTY stream active (0.18ms latency)</p>
+
+                {showBuildOutput && (
+                  <div className="space-y-1 text-[11px] pt-1">
+                    <p className="text-slate-400">&gt; kingsley-web@1.0.0 build</p>
+                    <p className="text-slate-400">&gt; tsc &amp;&amp; vite build</p>
+                    <p className="text-emerald-400">✓ 1596 modules transformed.</p>
+                    <div className="text-[10px] text-slate-400 space-y-0.5 pl-2 border-l border-emerald-500/30">
+                      <p>dist/index.html <span className="text-slate-500">2.06 kB │ gzip: 0.93 kB</span></p>
+                      <p>dist/assets/app.js <span className="text-slate-500">211 kB │ gzip: 60.5 kB</span></p>
+                    </div>
+                    <p className="text-emerald-400 font-semibold pt-0.5">✓ built in 3.84s (0 errors)</p>
                   </div>
                 )}
               </div>
@@ -484,9 +424,9 @@ export const TerminalMockup: React.FC = () => {
               <div className="h-7 bg-[#141924] border-t border-white/5 px-3 flex items-center justify-between text-[10px] text-slate-400">
                 <span className="text-emerald-400 flex items-center gap-1 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  ConPTY Pipe Ready (0.18ms)
+                  PowerShell 7.4 (ConPTY Active)
                 </span>
-                <span className="text-slate-500">DeepSeek V4.1 • OpenCode</span>
+                <span className="text-slate-500 font-mono">0.18ms I/O</span>
               </div>
             </div>
 
@@ -506,14 +446,14 @@ export const TerminalMockup: React.FC = () => {
               <div
                 className={`transition-all duration-150 relative flex items-center justify-center w-[1px] h-full ${
                   isDraggingActive
-                    ? 'opacity-100 shadow-[0_0_10px_rgba(0,210,211,0.85)]'
+                    ? 'opacity-100 shadow-[0_0_12px_rgba(0,210,211,0.95)]'
                     : 'opacity-35 group-hover:opacity-100 group-hover:shadow-[0_0_8px_rgba(0,210,211,0.6)]'
                 }`}
                 style={{
                   backgroundColor: '#00d2d3',
                 }}
               >
-                {/* Subtle micro grip pill for visual affordance (8px high) */}
+                {/* Subtle micro grip pill for visual affordance (w-1.5 h-8) */}
                 <div
                   className={`absolute rounded-full transition-all duration-150 w-1.5 h-8 ${
                     isDraggingActive
@@ -527,7 +467,7 @@ export const TerminalMockup: React.FC = () => {
               </div>
             </div>
 
-            {/* RIGHT PANE: Sesi tanya shell with omp agent */}
+            {/* RIGHT PANE: Sesi tanya (AI Companion: omp / Gemini 3.8 Flash) */}
             <div
               onClick={() => {
                 handleUserTouch();
@@ -540,7 +480,7 @@ export const TerminalMockup: React.FC = () => {
                   : 'bg-[#0c0e12]'
               }`}
             >
-              {/* PaneHeader (matching PaneHeader.tsx) */}
+              {/* PaneHeader */}
               <div
                 className={`h-7 px-2.5 flex items-center justify-between text-xs select-none border-b transition-colors duration-150 font-mono ${
                   activePane === 'right'
@@ -559,7 +499,7 @@ export const TerminalMockup: React.FC = () => {
                   <TerminalIcon className="w-3.5 h-3.5 text-[#00a8ff] shrink-0" />
                   <span className="font-bold text-slate-200 truncate">Sesi tanya</span>
                   <span className="text-slate-600">/</span>
-                  <span className="text-emerald-300 font-medium truncate">shell (omp)</span>
+                  <span className="text-emerald-300 font-medium truncate">omp agent</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-slate-500 shrink-0">
                   <Camera className="w-3 h-3 hover:text-white cursor-pointer" />
@@ -570,22 +510,30 @@ export const TerminalMockup: React.FC = () => {
                 </div>
               </div>
 
-              {/* Fast Streaming AI Logs */}
-              <div className="p-3 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-slate-300 bg-[#0c0e12]">
-                {agentLogs.map((log, i) => (
-                  <p
-                    key={i}
-                    className={`leading-relaxed ${
-                      log.startsWith('✓')
-                        ? 'text-[#00d2d3] font-semibold'
-                        : log.startsWith('$')
-                        ? 'text-slate-200'
-                        : 'text-slate-400'
-                    }`}
-                  >
-                    {log}
-                  </p>
-                ))}
+              {/* Exact live agent logs from Bro Jopal's Kingsley session */}
+              <div className="p-3.5 flex-1 overflow-y-auto space-y-1.5 text-[11px] font-mono text-slate-300 bg-[#0c0e12]">
+                <div className="p-1.5 rounded bg-blue-950/40 border border-blue-800/40 text-[10px] text-blue-300 flex items-center justify-between">
+                  <span className="truncate">● WEB: Build Kingsley web per PRD</span>
+                  <span className="text-slate-400 text-[9px] shrink-0 font-mono">ctx: 28.3%/1M [A]</span>
+                </div>
+
+                <div className="space-y-1 pt-1">
+                  <p className="text-slate-500">[high] Gemini 3.8 Flash • [T] D:\KiroCLI\temp</p>
+                  {agentLogs.map((log, i) => (
+                    <p
+                      key={i}
+                      className={`leading-relaxed ${
+                        log.startsWith('✓')
+                          ? 'text-[#00d2d3] font-semibold'
+                          : log.startsWith('>')
+                          ? 'text-cyan-300'
+                          : 'text-slate-400'
+                      }`}
+                    >
+                      {log}
+                    </p>
+                  ))}
+                </div>
               </div>
 
               {/* Pane Footer Action Bar */}
@@ -593,14 +541,14 @@ export const TerminalMockup: React.FC = () => {
                 <span className="text-[#00d2d3] font-mono text-[10px] font-medium">
                   Split: {Math.round(splitPos)}% : {100 - Math.round(splitPos)}%
                 </span>
-                <span className="text-slate-500 font-mono text-[9px]">[high] Gemini 3.5</span>
+                <span className="text-emerald-400 font-mono text-[9px]">● IPC Live Sync</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* AUTHENTIC KINGSLEY STATUSBAR (StatusBar.tsx)                               */}
+        {/* AUTHENTIC KINGSLEY STATUSBAR (Exact from Kingsley StatusBar.tsx)          */}
         {/* ========================================================================= */}
         <div className="h-6 bg-[#090b0e] border-t border-white/10 px-3 flex items-center justify-between text-[10px] text-slate-500 font-mono">
           <div className="flex items-center gap-3">
@@ -611,7 +559,7 @@ export const TerminalMockup: React.FC = () => {
             <span className="text-slate-400">1 shell • 111.2K (56%) ctrl+p commands</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[#00d2d3]">[high] Gemini 3.5 Flash Lite</span>
+            <span className="text-[#00d2d3]">[high] Gemini 3.8 Flash</span>
             <span className="text-slate-700">•</span>
             <span className="text-slate-500">v1.0.0 Stable</span>
           </div>
