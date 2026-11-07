@@ -197,7 +197,7 @@ export const TerminalMockup: React.FC = () => {
                     : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                <TerminalIcon className="w-3 h-3 text-[#00a8ff]" />
+                <img src="/kingsley-icon.png" alt="Kingsley" className="w-3.5 h-3.5 rounded object-contain" />
                 <span>Kingsley 1</span>
                 <X className="w-3 h-3 text-slate-600 hover:text-slate-400 ml-1" />
               </div>

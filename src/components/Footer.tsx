@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Github } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -8,9 +8,11 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand & Creator info */}
           <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-            <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-blue-400">
-              <Terminal className="w-3.5 h-3.5" />
-            </div>
+            <img
+              src="/kingsley-icon.png"
+              alt="Kingsley Icon"
+              className="w-7 h-7 rounded-lg object-contain shadow-md shadow-cyan-500/20"
+            />
             <div>
               <p className="text-zinc-300 font-semibold font-sans text-sm">
                 Kingsley Terminal Multiplexer

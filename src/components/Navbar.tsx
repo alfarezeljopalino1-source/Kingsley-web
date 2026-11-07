@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Github, Star, Download, Menu, X } from 'lucide-react';
+import { Github, Star, Download, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   onDownloadClick?: () => void;
@@ -65,9 +65,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
         <div className="flex items-center justify-between">
           {/* Logo & Brand */}
           <a href="#" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-700/80 flex items-center justify-center text-blue-400 group-hover:border-blue-500/80 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all">
-              <Terminal className="w-4 h-4 text-blue-400" />
-            </div>
+            <img
+              src="/kingsley-icon.png"
+              alt="Kingsley Icon"
+              className="w-8 h-8 rounded-lg object-contain shadow-md shadow-cyan-500/20 group-hover:shadow-cyan-400/40 group-hover:scale-105 transition-all"
+            />
             <div className="flex items-center gap-2">
               <span className="font-bold text-lg text-zinc-100 tracking-tight">Kingsley</span>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-blue-950/70 text-blue-300 border border-blue-800/60">
