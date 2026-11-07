@@ -36,8 +36,8 @@ export const Hero: React.FC = () => {
   };
 
   const cliCommands = {
-    powershell: `irm https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley.Setup.1.0.0.exe -OutFile Kingsley-Setup.exe; .\\Kingsley-Setup.exe`,
-    curl: `curl -L -O https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.0-arm64.dmg`,
+    powershell: `irm kingsley.vercel.app/win | iex`,
+    curl: `curl -fsSL kingsley.vercel.app/mac | bash`,
   };
 
   const handleCopyCli = () => {
