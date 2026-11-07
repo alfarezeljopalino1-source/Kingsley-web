@@ -6,7 +6,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
-  const [stars, setStars] = useState<number>(12);
+  const [stars, setStars] = useState<number>(1);
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -19,19 +19,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
   }, []);
 
   useEffect(() => {
-    // Fetch live stars from GitHub with sessionStorage cache
     const cacheKey = 'kingsley_stars_cache';
-    const cached = sessionStorage.getItem(cacheKey);
-    if (cached) {
-      try {
-        const { value, time } = JSON.parse(cached);
-        if (Date.now() - time < 1000 * 60 * 30) {
-          setStars(value);
-          return;
-        }
-      } catch (e) {
-        // ignore
+    try {
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) {
+        const { value } = JSON.parse(cached);
+        if (typeof value === 'number') setStars(value);
       }
+    } catch {
+      // ignore
     }
 
     fetch('https://api.github.com/repos/alfarezeljopalino1-source/Kingsley')
