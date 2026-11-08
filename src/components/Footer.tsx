@@ -18,8 +18,7 @@ export const Footer: React.FC = () => {
                 Kingsley Terminal Multiplexer
               </p>
               <p className="text-zinc-500 text-xs">
-                Crafted by <strong className="text-zinc-300 font-medium">Alfarezel Jopalino</strong> (Bro Jopal) &{' '}
-                <span className="text-zinc-300 font-medium">Ben</span>
+                Crafted by <strong className="text-zinc-300 font-medium">Alfarezel Jopalino</strong>
               </p>
             </div>
           </div>
