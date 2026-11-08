@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/win", "destination": "/install.ps1" },
-    { "source": "/mac", "destination": "/install.sh" }
-  ]
-}
