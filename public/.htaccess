@@ -1,0 +1,27 @@
+# Apache Configuration for kingsley.my.id on DomaiNesia
+RewriteEngine On
+RewriteBase /
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Direct installer script routes
+RewriteRule ^win/?$ install.ps1 [L]
+RewriteRule ^mac/?$ install.sh [L]
+
+# Proper MIME types for terminal scripts
+<Files "install.ps1">
+    ForceType text/plain
+    Header set Content-Type "text/plain; charset=utf-8"
+</Files>
+
+<Files "install.sh">
+    ForceType text/plain
+    Header set Content-Type "text/plain; charset=utf-8"
+</Files>
+
+# Single Page Application (SPA) routing fallback
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

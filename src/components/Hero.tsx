@@ -36,8 +36,8 @@ export const Hero: React.FC = () => {
   };
 
   const cliCommands = {
-    powershell: `irm kingsley.vercel.app/win | iex`,
-    curl: `curl -fsSL kingsley.vercel.app/mac | bash`,
+    powershell: `irm kingsley.my.id/win | iex`,
+    curl: `curl -fsSL kingsley.my.id/mac | bash`,
   };
 
   const handleCopyCli = () => {
