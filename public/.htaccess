@@ -10,6 +10,10 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteRule ^win/?$ install.ps1 [L]
 RewriteRule ^mac/?$ install.sh [L]
 
+# Direct binary download shortcuts
+RewriteRule ^download/win/?$ https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley.Setup.1.0.1.exe [R=302,L]
+RewriteRule ^download/mac/?$ https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley-1.0.1-arm64.dmg [R=302,L]
+
 # Proper MIME types for terminal scripts
 <Files "install.ps1">
     ForceType text/plain

@@ -25,13 +25,13 @@ export const Hero: React.FC = () => {
       name: 'Windows 64-bit (Setup)',
       file: 'Kingsley.Setup.1.0.1.exe',
       size: '~90 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley.Setup.1.0.1.exe',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley.Setup.1.0.1.exe',
     },
     mac: {
       name: 'macOS Apple Silicon (DMG)',
       file: 'Kingsley-1.0.1-arm64.dmg',
       size: '~101 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.1-arm64.dmg',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley-1.0.1-arm64.dmg',
     },
   };
 

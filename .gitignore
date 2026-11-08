@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+deploy.py
+*.zip
+!kingsley-web-production.zip
