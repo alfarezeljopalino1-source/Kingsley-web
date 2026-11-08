@@ -367,7 +367,7 @@ export const TerminalMockup: React.FC = () => {
 
                 {showBuildOutput && (
                   <div className="space-y-0.5 sm:space-y-1 text-[9.5px] sm:text-xs pt-0.5 sm:pt-1">
-                    <p className="text-neutral-500 truncate">&gt; kingsley-web@1.0.0 build</p>
+                    <p className="text-neutral-500 truncate">&gt; kingsley-web@1.0.1 build</p>
                     <p className="text-neutral-500 truncate">&gt; tsc &amp;&amp; vite build</p>
                     <p className="text-emerald-400 font-medium">✓ 1596 modules transformed.</p>
                     <div className="text-[9px] sm:text-[11px] text-neutral-400 space-y-0.5 pl-1.5 sm:pl-2 border-l border-emerald-500/30 font-mono">
@@ -534,7 +534,7 @@ export const TerminalMockup: React.FC = () => {
           <div className="flex items-center gap-1.5 sm:gap-2">
             <span className="text-[#00d2d3] font-medium">[high] Gemini 3.8</span>
             <span className="hidden sm:inline text-neutral-600">•</span>
-            <span className="hidden sm:inline text-neutral-500">v1.0.0</span>
+            <span className="hidden sm:inline text-neutral-500">v1.0.1</span>
           </div>
         </div>
       </div>

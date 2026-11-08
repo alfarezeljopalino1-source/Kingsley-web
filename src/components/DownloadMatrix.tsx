@@ -10,10 +10,10 @@ export const DownloadMatrix: React.FC = () => {
       os: 'Windows',
       arch: 'x64 (Windows 10/11)',
       format: 'NSIS Installer (.exe)',
-      filename: 'Kingsley.Setup.1.0.0.exe',
+      filename: 'Kingsley.Setup.1.0.1.exe',
       size: '~90 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley.Setup.1.0.0.exe',
-      sha256: '9f2b8a7c1e5d3f4a6b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley.Setup.1.0.1.exe',
+      sha256: '2457468d86b142c3a175fcdfc9702d23ab9f214583f1b88dd907f6cf67ac7bd6',
       badge: 'Recommended for PC',
       accent: 'border-blue-500/60 bg-blue-950/10',
     },
@@ -21,9 +21,9 @@ export const DownloadMatrix: React.FC = () => {
       os: 'macOS',
       arch: 'Apple Silicon (M1/M2/M3/M4)',
       format: 'Disk Image (.dmg)',
-      filename: 'Kingsley-1.0.0-arm64.dmg',
+      filename: 'Kingsley-1.0.1-arm64.dmg',
       size: '~101 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.0-arm64.dmg',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.1-arm64.dmg',
       sha256: 'a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0',
       badge: 'Apple Silicon DMG',
       accent: 'border-zinc-800 bg-[#0d0d12]',
@@ -32,9 +32,9 @@ export const DownloadMatrix: React.FC = () => {
       os: 'macOS',
       arch: 'Apple Silicon (Portable)',
       format: 'Compressed Archive (.zip)',
-      filename: 'Kingsley-1.0.0-arm64-mac.zip',
+      filename: 'Kingsley-1.0.1-arm64-mac.zip',
       size: '~98 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.0-arm64-mac.zip',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.1-arm64-mac.zip',
       sha256: 'c3d4e5f6a1b27890123456789abcdef0123456789abcdef0123456789abcdef0',
       badge: 'Standalone Zip',
       accent: 'border-zinc-800 bg-[#0d0d12]',
@@ -55,7 +55,7 @@ export const DownloadMatrix: React.FC = () => {
             OFFICIAL BINARIES
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-100">
-            Download Kingsley v1.0.0
+            Download Kingsley v1.0.1
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base">
             Static client binaries served directly via GitHub Global CDN. Zero intermediate proxy, 100% verified checksums.

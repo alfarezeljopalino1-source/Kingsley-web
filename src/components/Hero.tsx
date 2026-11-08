@@ -23,15 +23,15 @@ export const Hero: React.FC = () => {
   const downloadLinks = {
     windows: {
       name: 'Windows 64-bit (Setup)',
-      file: 'Kingsley.Setup.1.0.0.exe',
+      file: 'Kingsley.Setup.1.0.1.exe',
       size: '~90 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley.Setup.1.0.0.exe',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley.Setup.1.0.1.exe',
     },
     mac: {
       name: 'macOS Apple Silicon (DMG)',
-      file: 'Kingsley-1.0.0-arm64.dmg',
+      file: 'Kingsley-1.0.1-arm64.dmg',
       size: '~101 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.0-arm64.dmg',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/latest/download/Kingsley-1.0.1-arm64.dmg',
     },
   };
 
@@ -55,7 +55,11 @@ export const Hero: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto space-y-6">
-
+          {/* Release Status Pill */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-mono">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>v1.0.1 STABLE RELEASE • ZERO-LATENCY WEBGL GPU UPDATE</span>
+          </div>
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-100 leading-[1.1]">
             The Terminal Multiplexer That{' '}
@@ -72,6 +76,9 @@ export const Hero: React.FC = () => {
 
           {/* Key capability pills */}
           <div className="flex flex-wrap items-center justify-center gap-2 pt-1 pb-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-blue-950/40 border border-blue-700/50 text-blue-300">
+              <span className="text-blue-400 font-bold">🚀</span> Zero-Lag WebGL GPU
+            </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-zinc-900/90 border border-zinc-800 text-zinc-300">
               <span className="text-cyan-400 font-bold">⚡</span> 0.18ms ConPTY IPC
             </span>
@@ -95,7 +102,7 @@ export const Hero: React.FC = () => {
               <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
               <span>Download for {os === 'windows' ? 'Windows' : 'macOS'}</span>
               <span className="text-xs text-blue-200/80 font-mono bg-blue-700/50 px-2 py-0.5 rounded">
-                v1.0.0
+                v1.0.1
               </span>
             </a>
 

@@ -168,7 +168,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
               onClick={() => setMobileMenuOpen(false)}
               className="flex-1 text-center py-2 text-xs font-medium bg-blue-600 rounded-lg text-white"
             >
-              Download v1.0.0
+              Download v1.0.1
             </a>
           </div>
         </div>
