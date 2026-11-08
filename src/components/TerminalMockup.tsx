@@ -23,8 +23,8 @@ export const TerminalMockup: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'kingsley' | 'backend-core' | 'ai-copilot'>('ai-copilot');
   const [activePane, setActivePane] = useState<'left' | 'right'>('left');
 
-  // Split position state matching Image #1: 39% left, 61% right
-  const [splitPos, setSplitPos] = useState<number>(39);
+  // Split position state matching latest Kingsley app state: 53% left, 47% right
+  const [splitPos, setSplitPos] = useState<number>(53);
   const [isUserDragging, setIsUserDragging] = useState<boolean>(false);
   const [isAutoDragging, setIsAutoDragging] = useState<boolean>(false);
   const [userInteracted, setUserInteracted] = useState<boolean>(false);
@@ -64,22 +64,21 @@ export const TerminalMockup: React.FC = () => {
         const typeProgress = Math.min(Math.floor((elapsed / 800) * cmd.length), cmd.length);
         setTypedCommand(cmd.slice(0, typeProgress));
         setShowBuildOutput(elapsed > 850);
-        setSplitPos(39);
+        setSplitPos(53);
       }
       // PHASE 2: 1800ms - 3800ms (Fluid Resizable Divider Animation: 39% -> 52% -> 34% -> 39%)
       else if (elapsed >= 1800 && elapsed < 3800) {
         setIsAutoDragging(true);
         const dragProgress = (elapsed - 1800) / 2000;
         // Smooth sine wave offset
-        const offset = Math.sin(dragProgress * Math.PI * 2) * 14;
-        setSplitPos(39 + offset);
+        const offset = Math.sin(dragProgress * Math.PI * 2) * 15;
+        setSplitPos(53 + offset);
       }
       // PHASE 3: 3800ms - 5400ms (Right Pane AI Copilot Agent Stream & Live Synchronization)
       else if (elapsed >= 3800 && elapsed < 5400) {
         setIsAutoDragging(false);
         setActivePane('right');
-        setSplitPos(39);
-
+        setSplitPos(53);
         const agentPhase = elapsed - 3800;
         if (agentPhase < 450) {
           setAgentLogs([
@@ -104,7 +103,7 @@ export const TerminalMockup: React.FC = () => {
       // PHASE 4: 5400ms - 6000ms (Clean settling, ready for seamless loop restart)
       else {
         setIsAutoDragging(false);
-        setSplitPos(39);
+        setSplitPos(53);
       }
     }, 25);
 
