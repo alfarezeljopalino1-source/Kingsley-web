@@ -3,13 +3,14 @@ import {
   Columns2,
   Rows2,
   LayoutGrid,
-  Zap,
-  Bot,
   Terminal,
   Check,
   Layers,
-  ArrowRight,
-  FileCode2
+  FileCode2,
+  Globe,
+  RotateCw,
+  Server,
+  Lock
 } from 'lucide-react';
 
 export const BentoGrid: React.FC = () => {
@@ -22,17 +23,17 @@ export const BentoGrid: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-cyan-950/40 text-[#00d2d3] border border-cyan-800/40">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00d2d3] animate-pulse" />
-            <span>CORE ARCHITECTURE</span>
+            <span>ENGINEERED CAPABILITIES</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white font-sans">
             Built for Engineers Who Refuse Bloat.
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-            Most multiplexers force you to choose between ancient tmux configuration rituals or slow, heavy web wrappers. Kingsley couples direct OS pseudoterminal bindings with fluid layout engineering.
+            Kingsley isn't just another terminal skin. It couples direct OS pseudoterminal bindings with an embedded web preview engine and native agent tooling.
           </p>
         </div>
 
-        {/* 2x2 High-Impact Engineering Grid */}
+        {/* 2x2 Distinct High-Impact Engineering Grid (Zero Repetition) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* ========================================================================= */}
           {/* CARD 1: Fluid Resizable Split-Panes                                       */}
@@ -129,10 +130,10 @@ export const BentoGrid: React.FC = () => {
                       <div>
                         <div className="flex items-center gap-1.5 text-[10px] text-zinc-500">
                           <span className="w-1.5 h-1.5 rounded-full bg-neutral-600" />
-                          <span>ai-copilot / stream</span>
+                          <span>worker / logs</span>
                         </div>
-                        <p className="text-zinc-400 mt-2">$ omp watch</p>
-                        <p className="text-cyan-400 text-[10px] mt-0.5">&gt; ConPTY IPC pipeline active</p>
+                        <p className="text-zinc-400 mt-2">$ cargo watch</p>
+                        <p className="text-cyan-400 text-[10px] mt-0.5">&gt; Listening for file updates</p>
                       </div>
                       <span className="text-[10px] text-zinc-600">Split: 53% : 47%</span>
                     </div>
@@ -182,7 +183,7 @@ export const BentoGrid: React.FC = () => {
           </div>
 
           {/* ========================================================================= */}
-          {/* CARD 2: Direct OS Path Ingestion (Anti-AI-Slop, Pure Engineering)         */}
+          {/* CARD 2: Direct OS Path Ingestion (Zero-Copy Stream)                       */}
           {/* ========================================================================= */}
           <div className="rounded-2xl border border-zinc-800 bg-[#0c0e14] p-7 flex flex-col justify-between hover:border-zinc-700 transition-all shadow-xl">
             <div className="space-y-5">
@@ -249,120 +250,151 @@ export const BentoGrid: React.FC = () => {
           </div>
 
           {/* ========================================================================= */}
-          {/* CARD 3: Native ConPTY & POSIX Core                                        */}
+          {/* CARD 3: Embedded Localhost Browser Preview (BrowserPane.tsx Feature)      */}
           {/* ========================================================================= */}
           <div className="rounded-2xl border border-zinc-800 bg-[#0c0e14] p-7 flex flex-col justify-between hover:border-zinc-700 transition-all shadow-xl">
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-xl bg-amber-950/60 border border-amber-800/50 flex items-center justify-center text-amber-400">
-                  <Zap className="w-5 h-5" />
+                  <Globe className="w-5 h-5" />
                 </div>
                 <span className="px-2.5 py-1 rounded text-xs font-mono bg-amber-950/60 text-amber-300 border border-amber-800/60 font-semibold">
-                  0.18ms Latency
+                  Zero Alt+Tab
                 </span>
               </div>
 
               <div>
                 <h3 className="text-xl font-bold text-white font-sans">
-                  Native ConPTY & POSIX Core
+                  Embedded Live Web Browser
                 </h3>
                 <p className="text-sm text-zinc-400 mt-1.5 leading-relaxed">
-                  Real Windows Console Pseudo-Terminal (<code className="text-zinc-300 font-mono text-xs bg-zinc-800/80 px-1.5 py-0.5 rounded">CreatePseudoConsole</code>) and macOS POSIX bindings. Zero winpty translation overhead, raw hardware I/O throughput.
+                  Test localhost servers, inspect responsive UI endpoints, or browse API docs in an embedded Chromium pane docked side-by-side with your active build shell.
                 </p>
               </div>
 
-              {/* Latency Comparison Metric */}
-              <div className="space-y-3 font-mono text-xs pt-1">
-                <div>
-                  <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-white font-medium">Kingsley ConPTY IPC</span>
-                    <span className="text-emerald-400 font-bold">0.18 ms</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-zinc-900 overflow-hidden">
-                    <div className="w-[12%] h-full bg-[#00d2d3] rounded-full shadow-[0_0_8px_#00d2d3]" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-zinc-400">Traditional WSL / winpty</span>
-                    <span className="text-rose-400 font-mono">18.40 ms</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-zinc-900 overflow-hidden">
-                    <div className="w-[85%] h-full bg-rose-500/70 rounded-full" />
-                  </div>
-                </div>
+              {/* Technical Features Tag Grid */}
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono pt-1">
+                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
+                  Hot-Reload Sync
+                </span>
+                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
+                  DevTools Inspection
+                </span>
+                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
+                  Mobile / Desktop Viewports
+                </span>
               </div>
             </div>
 
-            {/* Hardware Pipeline Flow Architecture */}
-            <div className="mt-6 rounded-xl bg-[#08090d] border border-white/10 p-3.5 font-mono text-xs space-y-2">
-              <div className="flex items-center justify-between text-[10px] text-zinc-500 pb-1.5 border-b border-white/5">
-                <span>IPC Pipeline Architecture</span>
-                <span className="text-cyan-400">Zero Bridge Overhead</span>
+            {/* Embedded Browser Preview Mockup */}
+            <div className="mt-6 rounded-xl bg-[#08090d] border border-white/10 p-3.5 font-mono text-xs space-y-2.5">
+              {/* Browser Address Bar Header */}
+              <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-[#0c0e12] border border-white/10 text-[11px]">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <div className="flex items-center gap-1 text-zinc-500 pl-1">
+                    <span className="w-2 h-2 rounded-full bg-rose-500/70" />
+                    <span className="w-2 h-2 rounded-full bg-amber-500/70" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-500/70" />
+                  </div>
+                  <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-900/90 text-zinc-300 border border-white/5 flex-1 min-w-0">
+                    <Lock className="w-2.5 h-2.5 text-emerald-400 shrink-0" />
+                    <span className="text-[10px] font-mono text-zinc-300 truncate">http://localhost:5173/</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-zinc-400 shrink-0 pr-1">
+                  <RotateCw className="w-3 h-3 hover:text-white cursor-pointer" />
+                </div>
               </div>
 
-              <div className="flex items-center justify-between text-[11px] text-zinc-300 pt-1">
-                <span className="px-2 py-1 rounded bg-[#12161f] border border-white/10">Keyboard</span>
-                <ArrowRight className="w-3.5 h-3.5 text-zinc-600" />
-                <span className="px-2 py-1 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300 font-semibold">ConPTY Pipe</span>
-                <ArrowRight className="w-3.5 h-3.5 text-zinc-600" />
-                <span className="px-2 py-1 rounded bg-[#12161f] border border-white/10 text-emerald-400">Direct Render</span>
+              {/* Split Terminal + Web View Preview */}
+              <div className="grid grid-cols-2 gap-2 text-[10px]">
+                <div className="p-2 rounded bg-[#0c0e12] border border-white/5 space-y-1">
+                  <span className="text-zinc-500 block">Pane 1: Terminal</span>
+                  <p className="text-zinc-300">$ vite --port 5173</p>
+                  <p className="text-emerald-400">➜ Local: 5173 (HMR)</p>
+                </div>
+                <div className="p-2 rounded bg-blue-950/20 border border-blue-900/40 space-y-1">
+                  <span className="text-cyan-400 block font-semibold">Pane 2: Browser Live</span>
+                  <p className="text-zinc-300">DOM: 24 Elements</p>
+                  <p className="text-emerald-400">✓ Page render: 12ms</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-[10px] text-zinc-500 pt-0.5">
+                <span className="text-emerald-400 flex items-center gap-1">
+                  <Check className="w-3 h-3" /> Live IPC stream synchronization
+                </span>
+                <span>Isolated Cookies &amp; Storage</span>
               </div>
             </div>
           </div>
 
           {/* ========================================================================= */}
-          {/* CARD 4: Side-by-Side AI CLI Workflow                                      */}
+          {/* CARD 4: Native MCP Skills Hub & Plugin Ecosystem (McpSkillsModal.tsx)     */}
           {/* ========================================================================= */}
           <div className="rounded-2xl border border-zinc-800 bg-[#0c0e14] p-7 flex flex-col justify-between hover:border-zinc-700 transition-all shadow-xl">
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-xl bg-emerald-950/60 border border-emerald-800/50 flex items-center justify-center text-emerald-400">
-                  <Bot className="w-5 h-5" />
+                  <Server className="w-5 h-5" />
                 </div>
                 <span className="px-2.5 py-1 rounded text-xs font-mono bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 font-semibold">
-                  Multi-Agent Ready
+                  MCP Protocol
                 </span>
               </div>
 
               <div>
                 <h3 className="text-xl font-bold text-white font-sans">
-                  Side-by-Side AI CLI Workflow
+                  Native MCP Skills &amp; Plugins Hub
                 </h3>
                 <p className="text-sm text-zinc-400 mt-1.5 leading-relaxed">
-                  Run autonomous coding agents like <code className="text-zinc-300 font-mono text-xs bg-zinc-800/80 px-1.5 py-0.5 rounded">omp</code>, <code className="text-zinc-300 font-mono text-xs bg-zinc-800/80 px-1.5 py-0.5 rounded">claude-code</code>, or <code className="text-zinc-300 font-mono text-xs bg-zinc-800/80 px-1.5 py-0.5 rounded">Codex</code> in one split-pane while watching active build servers in the other.
+                  Connect local filesystem sandbox tools, database introspectors, and GitHub APIs directly to your autonomous terminal agents with 1-click toggles instead of messy JSON configuration files.
                 </p>
               </div>
 
-              {/* Supported Tools Badges */}
+              {/* Supported MCP Providers */}
               <div className="flex flex-wrap items-center gap-2 text-xs font-mono pt-1">
-                <span className="text-zinc-500">Supported:</span>
-                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-cyan-300">omp</span>
-                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-amber-300">claude-code</span>
-                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-purple-300">codex</span>
-                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-emerald-300">aider</span>
+                <span className="text-zinc-500">Servers:</span>
+                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-cyan-300">Filesystem</span>
+                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-emerald-300">Playwright</span>
+                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-purple-300">GitHub API</span>
+                <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-amber-300">SQLite DB</span>
               </div>
             </div>
 
-            {/* Synchronized Agent Session Card */}
+            {/* MCP Live Status Card Showcase */}
             <div className="mt-6 rounded-xl bg-[#08090d] border border-white/10 p-3.5 font-mono text-xs space-y-2">
               <div className="flex items-center justify-between text-[11px] text-zinc-500 pb-1.5 border-b border-white/5">
-                <span className="text-emerald-400">● AI Agent Flow Synchronized</span>
-                <span className="text-zinc-500">ConPTY Stream Attached</span>
+                <span className="text-emerald-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  3 MCP Servers Connected
+                </span>
+                <span className="text-zinc-500 text-[10px]">26 Active Tools</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-[11px] pt-1">
-                <div className="p-2 rounded bg-[#0c0e12] border border-white/5 space-y-1">
-                  <span className="text-[10px] text-zinc-500 block">Pane A: Local Server</span>
-                  <p className="text-zinc-300">$ npm run dev</p>
-                  <p className="text-emerald-400 text-[10px]">✓ ready in 182ms</p>
+              <div className="space-y-1.5 text-[11px]">
+                <div className="p-2 rounded bg-[#0c0e12] border border-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-cyan-400 font-bold">●</span>
+                    <span className="text-zinc-200">filesystem-mcp</span>
+                    <span className="text-zinc-500 text-[10px]">(6 tools)</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-400 font-mono">Ready</span>
                 </div>
-                <div className="p-2 rounded bg-[#101622] border border-blue-900/40 space-y-1">
-                  <span className="text-[10px] text-cyan-400 block font-semibold">Pane B: omp Agent</span>
-                  <p className="text-cyan-200">[omp] Testing endpoints</p>
-                  <p className="text-emerald-400 text-[10px]">✓ 42 tests passed</p>
+
+                <div className="p-2 rounded bg-[#0c0e12] border border-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 font-bold">●</span>
+                    <span className="text-zinc-200">playwright-browser-mcp</span>
+                    <span className="text-zinc-500 text-[10px]">(8 tools)</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-400 font-mono">Ready</span>
                 </div>
+              </div>
+
+              <div className="flex items-center justify-between text-[10px] text-zinc-500 pt-1">
+                <span className="text-cyan-400 font-mono">Direct agent context injection</span>
+                <span>Zero CLI Restart</span>
               </div>
             </div>
           </div>
