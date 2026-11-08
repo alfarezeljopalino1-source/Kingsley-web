@@ -45,7 +45,7 @@ export const BentoGrid: React.FC = () => {
                   <Layers className="w-5 h-5" />
                 </div>
                 {/* Mode Selector */}
-                <div className="flex items-center gap-1 p-1 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-1 p-1 rounded-lg bg-zinc-900 border border-zinc-800 text-[11px] sm:text-xs font-mono">
                   <button
                     onClick={() => setSplitLayout('vert')}
                     className={`px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors ${
@@ -230,11 +230,11 @@ export const BentoGrid: React.FC = () => {
                 <span className="text-emerald-400 text-[10px]">Zero Temp Files</span>
               </div>
 
-              <div className="p-2.5 rounded bg-[#0c0e12] border border-white/5 space-y-1 text-xs">
+              <div className="p-2.5 rounded bg-[#0c0e12] border border-white/5 space-y-1 text-xs overflow-hidden">
                 <p className="text-zinc-500 text-[10px]">Active Terminal Prompt:</p>
-                <p className="text-zinc-300">
+                <p className="text-zinc-300 text-[11px] sm:text-xs break-all sm:break-normal">
                   <span className="text-purple-400 font-semibold">PS &gt;</span> python run_pipeline.py --config=
-                  <span className="text-[#00d2d3] font-semibold bg-[#00d2d3]/15 px-1 py-0.5 rounded border border-[#00d2d3]/30">
+                  <span className="text-[#00d2d3] font-semibold bg-[#00d2d3]/15 px-1 py-0.5 rounded border border-[#00d2d3]/30 inline-block max-w-full truncate align-bottom">
                     "C:\workspace\backend\src\pipeline.ts"
                   </span>
                 </p>

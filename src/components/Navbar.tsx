@@ -71,8 +71,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
             </div>
           </a>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+          {/* Responsive Desktop & Tablet Nav Links */}
+          <div className="hidden md:flex items-center gap-3.5 lg:gap-8 text-xs lg:text-sm font-medium text-zinc-400">
             <a href="#features" className="hover:text-zinc-100 transition-colors">
               Features
             </a>
@@ -86,7 +86,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onDownloadClick }) => {
               Download
             </a>
           </div>
-
           {/* Right Actions */}
           <div className="hidden sm:flex items-center gap-3">
             <a
