@@ -1,9 +1,47 @@
 import React, { useState } from 'react';
-import { Columns2, Rows2, LayoutGrid, FileCode, Zap, Bot } from 'lucide-react';
-
+import {
+  Columns2,
+  Rows2,
+  LayoutGrid,
+  FileCode,
+  Zap,
+  Bot,
+  Terminal,
+  Check,
+  FolderTree
+} from 'lucide-react';
 export const BentoGrid: React.FC = () => {
   const [splitLayout, setSplitLayout] = useState<'vert' | 'horiz' | 'grid'>('vert');
-  const [dragged, setDragged] = useState<boolean>(false);
+  
+  // Interactive sample files for Direct Path Drag & Drop
+  const [activeFileIdx, setActiveFileIdx] = useState<number>(0);
+  const [isDropped, setIsDropped] = useState<boolean>(true);
+
+  const sampleDropFiles = [
+    {
+      name: 'server.ts',
+      fullPath: 'C:\\workspace\\backend\\src\\server.ts',
+      size: '14.2 KB',
+      iconColor: 'text-[#00d2d3]',
+      commandPrefix: '$ cat',
+    },
+    {
+      name: 'agent.rs',
+      fullPath: 'C:\\workspace\\core\\models\\agent.rs',
+      size: '28.6 KB',
+      iconColor: 'text-amber-400',
+      commandPrefix: '$ cargo check --path',
+    },
+    {
+      name: 'dist-bundle/',
+      fullPath: 'C:\\workspace\\client\\dist-bundle',
+      size: '128 MB',
+      iconColor: 'text-purple-400',
+      commandPrefix: '$ ls -la',
+    },
+  ];
+
+  const currentFile = sampleDropFiles[activeFileIdx];
 
   return (
     <section id="features" className="py-20 border-t border-zinc-800/80 bg-[#09090c] relative">
@@ -23,7 +61,9 @@ export const BentoGrid: React.FC = () => {
 
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* CARD 1: Fluid Resizable Split-Panes (Col-Span 2) */}
+          {/* ========================================================================= */}
+          {/* CARD 1: Fluid Resizable Split-Panes (Col-Span 2)                           */}
+          {/* ========================================================================= */}
           <div className="md:col-span-2 rounded-2xl border border-zinc-800 bg-[#0e0e14] p-6 sm:p-8 flex flex-col justify-between hover:border-zinc-700 transition-all group">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -36,7 +76,7 @@ export const BentoGrid: React.FC = () => {
                     onClick={() => setSplitLayout('vert')}
                     className={`px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors ${
                       splitLayout === 'vert'
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-blue-600 text-white font-medium shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
@@ -47,7 +87,7 @@ export const BentoGrid: React.FC = () => {
                     onClick={() => setSplitLayout('horiz')}
                     className={`px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors ${
                       splitLayout === 'horiz'
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-blue-600 text-white font-medium shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
@@ -58,7 +98,7 @@ export const BentoGrid: React.FC = () => {
                     onClick={() => setSplitLayout('grid')}
                     className={`px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors ${
                       splitLayout === 'grid'
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-blue-600 text-white font-medium shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
@@ -76,25 +116,37 @@ export const BentoGrid: React.FC = () => {
               </div>
             </div>
 
-            {/* Interactive Layout Mockup Box */}
-            <div className="mt-6 p-4 rounded-xl bg-[#09090d] border border-zinc-800/80 font-mono text-xs">
-              <div className="h-44 w-full rounded-lg bg-zinc-950 p-2 border border-zinc-800 flex gap-2">
+            {/* Interactive Layout Mockup Box with Kingsley UI Aesthetics */}
+            <div className="mt-6 p-3.5 rounded-xl bg-[#08090d] border border-zinc-800/90 font-mono text-xs">
+              <div className="h-44 w-full rounded-lg bg-[#0c0e12] p-2 border border-white/10 flex gap-2">
                 {splitLayout === 'vert' && (
                   <>
-                    <div className="flex-1 rounded bg-zinc-900/90 border border-blue-500/40 p-3 flex flex-col justify-between">
+                    <div className="flex-1 rounded bg-[#12161f] border border-[#00d2d3]/40 p-3 flex flex-col justify-between shadow-[inset_0_0_12px_rgba(0,210,211,0.06)]">
                       <div>
-                        <span className="text-[10px] text-blue-400">#1: Main Shell</span>
-                        <p className="text-zinc-300 mt-2">$ npm run dev</p>
-                        <p className="text-emerald-400 text-[10px]">Ready on :3000</p>
+                        <div className="flex items-center gap-1.5 text-[10px] text-[#00d2d3]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span>#1: backend-core / shell</span>
+                        </div>
+                        <p className="text-zinc-200 mt-2 font-medium">$ npm run dev --port 3000</p>
+                        <p className="text-emerald-400 text-[10px] mt-0.5">✓ Ready on :3000 (182ms)</p>
                       </div>
-                      <span className="text-[10px] text-zinc-600">Active Focus</span>
+                      <span className="text-[10px] text-zinc-500">Active Focus</span>
                     </div>
-                    <div className="w-1.5 bg-blue-500/70 rounded-full cursor-col-resize shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                    <div className="flex-1 rounded bg-zinc-900/50 border border-zinc-800 p-3 flex flex-col justify-between">
+
+                    {/* Signature Kingsley Drag Handle Pill */}
+                    <div className="relative flex items-center justify-center w-2 cursor-col-resize select-none">
+                      <div className="w-[1px] h-full bg-white/10" />
+                      <div className="absolute w-1.5 h-6 rounded-full bg-[#00d2d3] shadow-[0_0_8px_#00d2d3]" />
+                    </div>
+
+                    <div className="flex-1 rounded bg-[#10131a] border border-zinc-800 p-3 flex flex-col justify-between">
                       <div>
-                        <span className="text-[10px] text-zinc-500">#2: Background Worker</span>
-                        <p className="text-zinc-400 mt-2">$ cargo watch</p>
-                        <p className="text-zinc-500 text-[10px]">Listening for changes</p>
+                        <div className="flex items-center gap-1.5 text-[10px] text-zinc-500">
+                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-600" />
+                          <span>#2: ai-copilot / stream</span>
+                        </div>
+                        <p className="text-zinc-400 mt-2">$ omp watch</p>
+                        <p className="text-cyan-400 text-[10px] mt-0.5">&gt; ConPTY IPC pipeline active</p>
                       </div>
                       <span className="text-[10px] text-zinc-600">Ctrl+Shift+D to split</span>
                     </div>
@@ -103,31 +155,40 @@ export const BentoGrid: React.FC = () => {
 
                 {splitLayout === 'horiz' && (
                   <div className="w-full flex flex-col gap-2">
-                    <div className="flex-1 rounded bg-zinc-900/90 border border-blue-500/40 p-2.5 flex items-center justify-between">
-                      <span className="text-zinc-300">$ nvim src/core.rs</span>
-                      <span className="text-[10px] text-blue-400">Editor (Top)</span>
+                    <div className="flex-1 rounded bg-[#12161f] border border-[#00d2d3]/40 p-2.5 flex items-center justify-between shadow-[inset_0_0_12px_rgba(0,210,211,0.06)]">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-zinc-200">$ nvim src/core.rs</span>
+                      </div>
+                      <span className="text-[10px] text-[#00d2d3]">Pane Top</span>
                     </div>
-                    <div className="h-1 bg-blue-500/70 rounded-full cursor-row-resize shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                    <div className="flex-1 rounded bg-zinc-900/50 border border-zinc-800 p-2.5 flex items-center justify-between">
+
+                    {/* Horizontal Divider Handle */}
+                    <div className="relative flex items-center justify-center h-1 cursor-row-resize select-none">
+                      <div className="h-[1px] w-full bg-white/10" />
+                      <div className="absolute h-1.5 w-6 rounded-full bg-[#00d2d3] shadow-[0_0_8px_#00d2d3]" />
+                    </div>
+
+                    <div className="flex-1 rounded bg-[#10131a] border border-zinc-800 p-2.5 flex items-center justify-between">
                       <span className="text-zinc-400">$ vitest --watch</span>
-                      <span className="text-[10px] text-emerald-400">Tests Passing</span>
+                      <span className="text-[10px] text-emerald-400">12 Tests Passing</span>
                     </div>
                   </div>
                 )}
 
                 {splitLayout === 'grid' && (
                   <div className="w-full grid grid-cols-2 gap-2">
-                    <div className="rounded bg-zinc-900/90 border border-blue-500/40 p-2.5 flex flex-col justify-between">
-                      <span className="text-[10px] text-blue-400">#1 API</span>
-                      <span className="text-zinc-300 text-[11px]">$ uvicorn main:app</span>
+                    <div className="rounded bg-[#12161f] border border-[#00d2d3]/40 p-2.5 flex flex-col justify-between">
+                      <span className="text-[10px] text-[#00d2d3]">#1 API Server</span>
+                      <span className="text-zinc-200 text-[11px]">$ uvicorn app:main --reload</span>
                     </div>
-                    <div className="rounded bg-zinc-900/50 border border-zinc-800 p-2.5 flex flex-col justify-between">
-                      <span className="text-[10px] text-zinc-500">#2 DB</span>
-                      <span className="text-zinc-400 text-[11px]">$ docker compose up</span>
+                    <div className="rounded bg-[#10131a] border border-zinc-800 p-2.5 flex flex-col justify-between">
+                      <span className="text-[10px] text-zinc-500">#2 Background Worker</span>
+                      <span className="text-zinc-400 text-[11px]">$ celery -A tasks worker</span>
                     </div>
-                    <div className="col-span-2 rounded bg-zinc-900/40 border border-zinc-800/80 p-2 flex items-center justify-between text-[10px] text-zinc-400">
-                      <span>#3 Logs: 200 OK (GET /status) - 1.2ms</span>
-                      <span className="text-zinc-600">ConPTY Multiplexed</span>
+                    <div className="col-span-2 rounded bg-zinc-950/80 border border-zinc-800/80 p-2 flex items-center justify-between text-[10px] text-zinc-400">
+                      <span className="text-emerald-400">✓ ConPTY Multiplexed [200 OK GET /v1/stream 0.18ms]</span>
+                      <span className="text-zinc-600 font-mono">3 Panes Active</span>
                     </div>
                   </div>
                 )}
@@ -135,12 +196,20 @@ export const BentoGrid: React.FC = () => {
             </div>
           </div>
 
-          {/* CARD 2: Direct Path Drag-and-Drop (Col-Span 1) */}
+          {/* ========================================================================= */}
+          {/* CARD 2: Direct Path Drag-and-Drop (Aesthetic Interactive Path Drop)       */}
+          {/* ========================================================================= */}
           <div className="rounded-2xl border border-zinc-800 bg-[#0e0e14] p-6 sm:p-8 flex flex-col justify-between hover:border-zinc-700 transition-all group">
             <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-indigo-950/60 border border-indigo-800/50 flex items-center justify-center text-indigo-400">
-                <FileCode className="w-5 h-5" />
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-xl bg-cyan-950/60 border border-cyan-800/50 flex items-center justify-center text-[#00d2d3]">
+                  <FolderTree className="w-5 h-5" />
+                </div>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-950/60 text-[#00d2d3] border border-cyan-800/60 font-medium">
+                  Zero-Copy Drop
+                </span>
               </div>
+
               <div>
                 <h3 className="text-xl font-bold text-zinc-100">Direct Path Drag & Drop</h3>
                 <p className="text-sm text-zinc-400 mt-1 leading-relaxed">
@@ -149,33 +218,83 @@ export const BentoGrid: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 p-4 rounded-xl bg-[#09090d] border border-zinc-800/80 font-mono text-xs space-y-3">
-              <div
-                onClick={() => setDragged(!dragged)}
-                className="p-3 rounded-lg border border-dashed border-zinc-700 hover:border-blue-400 bg-zinc-900/60 flex items-center justify-between cursor-pointer transition-all"
-              >
-                <div className="flex items-center gap-2 text-zinc-300">
-                  <FileCode className="w-4 h-4 text-blue-400" />
-                  <span>schema.prisma</span>
+            {/* Aesthetic Interactive Drop Simulator */}
+            <div className="mt-6 p-3.5 rounded-xl bg-[#08090d] border border-zinc-800/90 font-mono text-xs space-y-3">
+              {/* Selectable File Chips */}
+              <div>
+                <div className="flex items-center justify-between text-[10px] text-zinc-500 mb-1.5 font-sans">
+                  <span>Pick file to simulate drag:</span>
+                  <span className="text-cyan-400 font-mono text-[9px]">Click file below</span>
                 </div>
-                <span className="text-[10px] font-sans text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-800">
-                  {dragged ? 'Path Dropped!' : 'Click to simulate drop'}
+                <div className="flex items-center gap-1.5">
+                  {sampleDropFiles.map((file, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setActiveFileIdx(idx);
+                        setIsDropped(true);
+                      }}
+                      className={`px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1 transition-all ${
+                        activeFileIdx === idx
+                          ? 'bg-[#12161f] border border-[#00d2d3] text-white shadow-sm shadow-[#00d2d3]/20'
+                          : 'bg-zinc-900/60 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                      }`}
+                    >
+                      <span className={file.iconColor}>●</span>
+                      <span>{file.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Drag Trajectory Visualizer */}
+              <div
+                onClick={() => setIsDropped(!isDropped)}
+                className="p-2.5 rounded-lg border border-dashed border-cyan-500/40 hover:border-cyan-400 bg-cyan-950/20 flex items-center justify-between cursor-pointer transition-all group/drop"
+              >
+                <div className="flex items-center gap-2 text-zinc-200 text-[11px]">
+                  <FileCode className={`w-3.5 h-3.5 ${currentFile.iconColor}`} />
+                  <span className="font-medium text-cyan-200">{currentFile.name}</span>
+                  <span className="text-zinc-500 text-[10px]">({currentFile.size})</span>
+                </div>
+                <span className="text-[10px] font-sans text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/80 group-hover/drop:bg-cyan-900 transition-colors">
+                  {isDropped ? '✓ Path Injected' : 'Seret ke Shell'}
                 </span>
               </div>
 
-              <div className="p-2.5 rounded bg-zinc-950 border border-zinc-800 text-[11px] text-zinc-300">
-                <p className="text-zinc-500 text-[10px] mb-1">Terminal Prompt:</p>
-                <p>
-                  <span className="text-blue-400">❯</span> npx prisma db push --schema=
-                  <span className={dragged ? 'text-emerald-400 font-semibold' : 'text-zinc-600'}>
-                    {dragged ? '"D:/app/prisma/schema.prisma"' : '...'}
-                  </span>
-                </p>
+              {/* Terminal Target Shell Output */}
+              <div className="p-2.5 rounded-lg bg-[#0c0e12] border border-white/10 text-[11px] space-y-1.5 shadow-inner">
+                <div className="flex items-center justify-between text-[10px] text-zinc-500 pb-1 border-b border-white/5">
+                  <div className="flex items-center gap-1.5 text-zinc-400">
+                    <Terminal className="w-3 h-3 text-[#00d2d3]" />
+                    <span>backend-core / shell</span>
+                  </div>
+                  <span className="text-emerald-400 text-[9px]">0ms Clipboard Lag</span>
+                </div>
+
+                <div className="text-zinc-300 pt-0.5 overflow-x-auto whitespace-nowrap font-mono text-[11px] leading-relaxed">
+                  <span className="text-purple-400 font-semibold">PS &gt;</span>{' '}
+                  <span className="text-zinc-400">{currentFile.commandPrefix}</span>{' '}
+                  {isDropped ? (
+                    <span className="text-[#00d2d3] font-semibold bg-[#00d2d3]/15 px-1 py-0.5 rounded border border-[#00d2d3]/30">
+                      "{currentFile.fullPath}"
+                    </span>
+                  ) : (
+                    <span className="text-zinc-600 animate-pulse">[seret file ke sini...]</span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1.5 text-[9px] text-zinc-500 pt-0.5">
+                  <Check className="w-3 h-3 text-emerald-400 shrink-0" />
+                  <span>Clean OS Path Escaping • Zero Clipboard Pollution</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* CARD 3: Native ConPTY & POSIX Core (Col-Span 1) */}
+          {/* ========================================================================= */}
+          {/* CARD 3: Native ConPTY & POSIX Core (Col-Span 1)                           */}
+          {/* ========================================================================= */}
           <div className="rounded-2xl border border-zinc-800 bg-[#0e0e14] p-6 sm:p-8 flex flex-col justify-between hover:border-zinc-700 transition-all group">
             <div className="space-y-4">
               <div className="w-10 h-10 rounded-xl bg-amber-950/60 border border-amber-800/50 flex items-center justify-center text-amber-400">
@@ -209,7 +328,9 @@ export const BentoGrid: React.FC = () => {
             </div>
           </div>
 
-          {/* CARD 4: Tailored for AI Agents (Col-Span 2) */}
+          {/* ========================================================================= */}
+          {/* CARD 4: Tailored for AI Agents (Col-Span 2)                               */}
+          {/* ========================================================================= */}
           <div className="md:col-span-2 rounded-2xl border border-zinc-800 bg-[#0e0e14] p-6 sm:p-8 flex flex-col justify-between hover:border-zinc-700 transition-all group">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -229,18 +350,24 @@ export const BentoGrid: React.FC = () => {
             </div>
 
             <div className="mt-6 p-4 rounded-xl bg-[#09090d] border border-zinc-800/80 font-mono text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]">
-                <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800">
-                  <span className="text-[10px] text-blue-400 font-bold block mb-1">Pane A (Your Dev Work)</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="rounded-lg bg-zinc-950 p-3 border border-zinc-800 space-y-1">
+                  <div className="flex items-center justify-between text-[10px] text-blue-400 mb-1">
+                    <span>Pane A (Your Dev Work)</span>
+                    <span className="text-zinc-600">Active</span>
+                  </div>
                   <p className="text-zinc-300">$ git diff HEAD~1</p>
-                  <p className="text-emerald-400">+ conpty_pipe_write(buf)</p>
-                  <p className="text-red-400">- legacy_winpty_exec()</p>
+                  <p className="text-emerald-400 text-[10px]">+ conpty_pipe_write(buf)</p>
+                  <p className="text-rose-400 text-[10px]">- legacy_winpty_exec()</p>
                 </div>
-                <div className="p-3 rounded-lg bg-zinc-950 border border-emerald-800/40">
-                  <span className="text-[10px] text-emerald-400 font-bold block mb-1">Pane B (Autonomous Agent)</span>
+                <div className="rounded-lg bg-zinc-950 p-3 border border-emerald-800/50 space-y-1">
+                  <div className="flex items-center justify-between text-[10px] text-emerald-400 mb-1">
+                    <span>Pane B (Autonomous Agent)</span>
+                    <span className="text-emerald-400 font-bold">Streaming</span>
+                  </div>
                   <p className="text-zinc-400">[omp] Unit tests verified</p>
                   <p className="text-zinc-400">[omp] Commit message prepared</p>
-                  <p className="text-blue-400">Ready for git push review.</p>
+                  <p className="text-cyan-300 font-medium">Ready for git push review.</p>
                 </div>
               </div>
             </div>
