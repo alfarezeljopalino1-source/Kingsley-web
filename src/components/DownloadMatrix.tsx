@@ -14,8 +14,19 @@ export const DownloadMatrix: React.FC = () => {
       size: '~90 MB',
       url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley.Setup.1.0.1.exe',
       sha256: '658137193a69c84bfe8bd7b071523e08ed6ae46694380325864dff66cd5c7557',
-      badge: 'Recommended for PC',
+      badge: 'Installer (Setup)',
       accent: 'border-blue-500/60 bg-blue-950/10',
+    },
+    {
+      os: 'Windows',
+      arch: 'x64 (Portable / No Setup)',
+      format: 'Compressed Archive (.zip)',
+      filename: 'Kingsley-1.0.1-win.zip',
+      size: '~122 MB',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley-1.0.1-win.zip',
+      sha256: '3254ae0611fef0f8e197e451b2e473fb640d8f27300150b99df48a5b46e563e1',
+      badge: 'Standalone Zip (Portable)',
+      accent: 'border-emerald-500/50 bg-emerald-950/10',
     },
     {
       os: 'macOS',
@@ -62,8 +73,8 @@ export const DownloadMatrix: React.FC = () => {
           </p>
         </div>
 
-        {/* 3 Download Cards Matrix */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {/* 4 Download Cards Matrix */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {files.map((file, idx) => (
             <div
               key={idx}
@@ -131,10 +142,10 @@ export const DownloadMatrix: React.FC = () => {
               <ShieldCheck className="w-5 h-5 text-emerald-400" />
               <div>
                 <h4 className="text-sm font-semibold text-zinc-200">
-                  Catatan Instalasi Windows (SmartScreen Notice)
+                  Panduan Keamanan Unduhan & SmartScreen Windows
                 </h4>
                 <p className="text-xs text-zinc-500">
-                  Kenapa muncul "Windows protected your PC" dan cara mengatasinya
+                  Cara mengatasi peringatan browser "isn't commonly downloaded" atau jendela biru Windows
                 </p>
               </div>
             </div>
@@ -148,13 +159,19 @@ export const DownloadMatrix: React.FC = () => {
           {smartScreenOpen && (
             <div className="px-5 pb-5 pt-1 text-xs text-zinc-400 space-y-3 border-t border-zinc-800/60 leading-relaxed font-sans">
               <p>
-                Sebagai proyek <strong className="text-zinc-200">100% Free & Open Source</strong> tanpa sertifikat korporat komersial ($400/tahun), Windows SmartScreen mungkin akan menampilkan dialog proteksi biru saat Anda pertama kali menjalankan installer.
+                Sebagai proyek <strong className="text-zinc-200">100% Free & Open Source</strong> tanpa sertifikat korporat komersial berbayar ($400/tahun), browser dan Windows SmartScreen memproteksi file biner baru karena reputasi riwayat unduhan global masih baru.
               </p>
-              <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800 font-mono text-[11px] text-zinc-300 space-y-1.5">
-                <p className="text-emerald-400 font-semibold">Langkah mudah untuk melanjutkan:</p>
-                <p>1. Pada jendela biru "Windows protected your PC", klik <span className="text-white underline">More info</span>.</p>
-                <p>2. Klik tombol <span className="text-white font-semibold">Run anyway</span>.</p>
-                <p>3. Installer Kingsley akan berjalan dan terpasang dengan aman.</p>
+              <div className="p-3.5 rounded-lg bg-zinc-950 border border-zinc-800 font-mono text-[11px] text-zinc-300 space-y-2">
+                <p className="text-emerald-400 font-semibold font-sans">1. Jika Browser (Edge / Chrome) menampilkan "isn't commonly downloaded":</p>
+                <p className="pl-3 text-zinc-400">• Klik tombol <span className="text-white">See more</span> atau ikon titik tiga (<span className="text-white font-bold">...</span>).</p>
+                <p className="pl-3 text-zinc-400">• Pilih <span className="text-white font-semibold">Keep</span> (Simpan) → klik <span className="text-white">Show more</span> → pilih <span className="text-emerald-300 font-semibold">Keep anyway</span> (Tetap simpan).</p>
+
+                <p className="text-emerald-400 font-semibold font-sans pt-1">2. Jika Windows menampilkan jendela biru "Windows protected your PC":</p>
+                <p className="pl-3 text-zinc-400">• Klik teks <span className="text-white underline">More info</span> (Info selengkapnya).</p>
+                <p className="pl-3 text-zinc-400">• Klik tombol <span className="text-emerald-300 font-semibold">Run anyway</span> (Tetap jalankan).</p>
+
+                <p className="text-blue-400 font-semibold font-sans pt-1">💡 Tips Alternatif:</p>
+                <p className="pl-3 text-zinc-300">Gunakan opsi <strong className="text-white">Windows Portable (.zip)</strong> di atas. Cukup ekstrak dan klik <code className="text-blue-300 bg-zinc-900 px-1 py-0.5 rounded">Kingsley.exe</code> tanpa perlu instalasi dan tidak dicegat peringatan download browser.</p>
               </div>
               <p className="text-zinc-500 text-[11px]">
                 Seluruh source code dapat diaudit secara bebas dan transparan di repositori GitHub kami.

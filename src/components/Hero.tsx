@@ -118,13 +118,21 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Trust subtitle */}
-          <div className="flex items-center justify-center gap-4 text-xs text-zinc-500 font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-zinc-500 font-mono">
             <span className="flex items-center gap-1.5 text-zinc-400">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               100% Free & Open Source (MIT)
             </span>
             <span>•</span>
             <span>{currentDownload.file} ({currentDownload.size})</span>
+            {os === 'windows' && (
+              <>
+                <span>•</span>
+                <a href="#download" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors">
+                  or Portable (.zip)
+                </a>
+              </>
+            )}
           </div>
 
           {/* Quick Terminal Install Snippet */}
