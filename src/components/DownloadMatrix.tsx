@@ -13,7 +13,7 @@ export const DownloadMatrix: React.FC = () => {
       filename: 'Kingsley.Setup.1.0.1.exe',
       size: '~90 MB',
       url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley.Setup.1.0.1.exe',
-      sha256: '14a10fdf42f6092665d222a4e56fc45cbbcd1fd791d74a28031628d062f3f9e3',
+      sha256: '658137193a69c84bfe8bd7b071523e08ed6ae46694380325864dff66cd5c7557',
       badge: 'Recommended for PC',
       accent: 'border-blue-500/60 bg-blue-950/10',
     },
