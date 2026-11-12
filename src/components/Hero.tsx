@@ -23,15 +23,15 @@ export const Hero: React.FC = () => {
   const downloadLinks = {
     windows: {
       name: 'Windows 64-bit (Setup)',
-      file: 'Kingsley.Setup.1.0.1.exe',
+      file: 'Kingsley.Setup.1.0.2.exe',
       size: '~90 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley.Setup.1.0.1.exe',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.2/Kingsley.Setup.1.0.2.exe',
     },
     mac: {
       name: 'macOS Apple Silicon (DMG)',
-      file: 'Kingsley-1.0.1-arm64.dmg',
+      file: 'Kingsley-1.0.2-arm64.dmg',
       size: '~101 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley-1.0.1-arm64.dmg',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.2/Kingsley-1.0.2-arm64.dmg',
     },
   };
 
@@ -58,7 +58,7 @@ export const Hero: React.FC = () => {
           {/* Release Status Pill */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-mono">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>v1.0.1 STABLE RELEASE • ZERO-LATENCY WEBGL GPU UPDATE</span>
+            <span>v1.0.2 STABLE RELEASE • PERFORMANCE &amp; ZERO-LATENCY UPDATE</span>
           </div>
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-100 leading-[1.1]">
@@ -102,7 +102,7 @@ export const Hero: React.FC = () => {
               <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
               <span>Download for {os === 'windows' ? 'Windows' : 'macOS'}</span>
               <span className="text-xs text-blue-200/80 font-mono bg-blue-700/50 px-2 py-0.5 rounded">
-                v1.0.1
+                v1.0.2
               </span>
             </a>
 

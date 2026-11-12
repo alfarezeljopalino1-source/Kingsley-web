@@ -190,7 +190,7 @@ export const WorkflowShowcase: React.FC = () => {
                 <span className="text-zinc-500"> (main)</span>
               </p>
               <p style={{ color: selectedTheme.text }}>$ cargo run --release --features=conpty</p>
-              <p style={{ color: selectedTheme.keyword }}>&gt; Compiling kingsley-core v1.0.1</p>
+              <p style={{ color: selectedTheme.keyword }}>&gt; Compiling kingsley-core v1.0.2</p>
               <p className="text-emerald-400">✓ Optimized build target ready [0.18ms latency]</p>
               <p style={{ color: selectedTheme.text }}>
                 <span style={{ color: selectedTheme.promptColor }}>❯ </span>

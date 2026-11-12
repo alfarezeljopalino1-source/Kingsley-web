@@ -10,10 +10,10 @@ export const DownloadMatrix: React.FC = () => {
       os: 'Windows',
       arch: 'x64 (Windows 10/11)',
       format: 'NSIS Installer (.exe)',
-      filename: 'Kingsley.Setup.1.0.1.exe',
+      filename: 'Kingsley.Setup.1.0.2.exe',
       size: '~90 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley.Setup.1.0.1.exe',
-      sha256: '658137193a69c84bfe8bd7b071523e08ed6ae46694380325864dff66cd5c7557',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.2/Kingsley.Setup.1.0.2.exe',
+      sha256: '664b5821fe7faa521512424e8779ccbedd488be811bfda903423d74c4791f3b9',
       badge: 'Installer (Setup)',
       accent: 'border-blue-500/60 bg-blue-950/10',
     },
@@ -21,10 +21,10 @@ export const DownloadMatrix: React.FC = () => {
       os: 'Windows',
       arch: 'x64 (Portable / No Setup)',
       format: 'Compressed Archive (.zip)',
-      filename: 'Kingsley-1.0.1-win.zip',
+      filename: 'Kingsley-1.0.2-win.zip',
       size: '~122 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley-1.0.1-win.zip',
-      sha256: '3254ae0611fef0f8e197e451b2e473fb640d8f27300150b99df48a5b46e563e1',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.2/Kingsley-1.0.2-win.zip',
+      sha256: '6cfd441517a4adf478992873c3fe0cfdd355887d2459d94866c87a76e30cf828',
       badge: 'Standalone Zip (Portable)',
       accent: 'border-emerald-500/50 bg-emerald-950/10',
     },
@@ -32,10 +32,10 @@ export const DownloadMatrix: React.FC = () => {
       os: 'macOS',
       arch: 'Apple Silicon (M1/M2/M3/M4)',
       format: 'Disk Image (.dmg)',
-      filename: 'Kingsley-1.0.1-arm64.dmg',
+      filename: 'Kingsley-1.0.2-arm64.dmg',
       size: '~101 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley-1.0.1-arm64.dmg',
-      sha256: 'd9311cac4473088fd363d1c382c90b3256c1299beea77d64e15a2d9227d04542',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.2/Kingsley-1.0.2-arm64.dmg',
+      sha256: 'pending-release-build',
       badge: 'Apple Silicon DMG',
       accent: 'border-zinc-800 bg-[#0d0d12]',
     },
@@ -43,10 +43,10 @@ export const DownloadMatrix: React.FC = () => {
       os: 'macOS',
       arch: 'Apple Silicon (Portable)',
       format: 'Compressed Archive (.zip)',
-      filename: 'Kingsley-1.0.1-arm64-mac.zip',
+      filename: 'Kingsley-1.0.2-arm64-mac.zip',
       size: '~98 MB',
-      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.1/Kingsley-1.0.1-arm64-mac.zip',
-      sha256: 'b23bb279e2f61d685ee1a88c1555d289677cd2cf7088e1b716ca96bac3ad0d67',
+      url: 'https://github.com/alfarezeljopalino1-source/Kingsley/releases/download/v1.0.2/Kingsley-1.0.2-arm64-mac.zip',
+      sha256: 'pending-release-build',
       badge: 'Standalone Zip',
       accent: 'border-zinc-800 bg-[#0d0d12]',
     },
@@ -66,7 +66,7 @@ export const DownloadMatrix: React.FC = () => {
             OFFICIAL BINARIES
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-100">
-            Download Kingsley v1.0.1
+            Download Kingsley v1.0.2
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base">
             Static client binaries served directly via GitHub Global CDN. Zero intermediate proxy, 100% verified checksums.
